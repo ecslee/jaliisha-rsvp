@@ -74,7 +74,6 @@
                 last: $('#last').val()
             },
             success: function (data, success, jqxhr) {
-                data = JSON.parse(data);
                 if (data.error) {
                     console.log('ERROR', data.err);
                 } else if (data.guest !== null) {
@@ -110,34 +109,6 @@
             if (rsvpChoice === 'yes') {
                 $('#comments label').show();
             }
-            
-            // no need to send this twice
-//            $.ajax({
-//                url: '/edit-rsvp',
-//                data: {
-//                    first: $('#first').val(),
-//                    last: $('#last').val(),
-//                    rsvp: rsvpChoice
-//                },
-//                success: function (data, success, jqxhr) {
-//                    data = JSON.parse(data);
-//                    if (data.err) {
-//                        console.log('ERROR', data.err);
-//                    }
-//
-//                    $(that).hide();
-//                    $('#edit-rsvp input').attr('disabled', true);
-//                    $('#submit-btn').show();
-//
-//                    $('#comments textarea').show();
-//                    if (data.rsvp) {
-//                        $('#comments label').show();
-//                    }
-//                },
-//                error: function (jqxhr, status, errorMsg) {
-//                    console.log('ERROR', status, errorMsg);
-//                }
-//            });
         }
     });
     
@@ -145,19 +116,14 @@
         $('#alerts .alert:visible').hide();
         var that = this;
         console.log('submit, done');
-        $.ajax({
-            url: '/submit',
-            data: {
+        $.post('/submit', {
                 first: $('#first').val(),
                 last: $('#last').val(),
                 rsvp: $('input:radio[name="rsvp-option"]:checked').val(),
-                info: {
-                    diet: $('#comments #diet').val(),
-                    note: $('#comments #note').val()
-                }
+                diet: $('#comments #diet').val(),
+                note: $('#comments #note').val()
             },
-            success: function (data, success, jqxhr) {
-                data = JSON.parse(data);
+            function (data, success, jqxhr) {
                 if (data.error) {
                     console.log('ERROR', data.err);
                 } else {
@@ -171,11 +137,8 @@
                         $('#alerts #success-no').show();
                     }
                 }
-            },
-            error: function (jqxhr, status, errorMsg) {
-                console.log('ERROR', status, errorMsg);
             }
-        });
+        );
     });
     
 </script>

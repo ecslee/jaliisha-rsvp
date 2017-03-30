@@ -24,6 +24,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/name', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     var response = {
         error: null,
         guest: null
@@ -55,6 +56,7 @@ router.get('/name', function (req, res, next) {
 });
 
 router.post('/edit-rsvp', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     var val = (req.query && req.query.rsvp) ? (req.query.rsvp === 'yes') : false;
     var response = {
         error: null,
@@ -78,24 +80,29 @@ router.post('/edit-rsvp', function (req, res, next) {
 });
 
 router.post('/submit', function (req, res, next) {
-    var val = (req.query && req.query.rsvp) ? (req.query.rsvp === 'yes') : false;
+    res.setHeader('Content-Type', 'application/json');
+    var val = (req.body && req.body.rsvp) ? (req.body.rsvp === 'yes') : false;
     var response = {
         error: null,
         rsvp: null
     };
     
+    var item = {
+        first: { S: req.body.first },
+        last: { S: req.body.last },
+        rsvp: { BOOL: val }
+    };
+    
+    if (req.body.diet) {
+        item.diet = { S: req.body.diet }
+    }
+    
+    if (req.body.note) {
+        item.note = { S: req.body.note }
+    }
+    
     db.putItem({
-        Item: {
-            first: { S: req.query.first },
-            last: { S: req.query.last },
-            rsvp: { BOOL: val },
-            info: {
-                M: {
-                    diet: { S: req.query.diet },
-                    note: { S: req.query.note }
-                }
-            }
-        }
+        Item: item
     }, function (err, data) {
         if (err) {
             response.error = err;
@@ -107,6 +114,7 @@ router.post('/submit', function (req, res, next) {
 });
 
 router.get('/rsvp-all', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     var response = {
         yes: [],
         no: [],
@@ -143,6 +151,7 @@ router.get('/rsvp-all', function (req, res, next) {
 });
 
 router.get('/rsvp-yes', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     doc.scan({
         ProjectionExpression: "#l, #f, #rsvp",
         FilterExpression: "#rsvp = :val",
@@ -169,6 +178,7 @@ router.get('/rsvp-yes', function (req, res, next) {
 });
 
 router.get('/rsvp-no', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     doc.scan({
         ProjectionExpression: "#l, #f, #rsvp",
         FilterExpression: "#rsvp = :val",
@@ -195,6 +205,7 @@ router.get('/rsvp-no', function (req, res, next) {
 });
 
 router.get('/rsvp-reply', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     doc.scan({
         ProjectionExpression: "#l, #f, #rsvp",
         FilterExpression: "#rsvp = :t or #rsvp = :f",
@@ -222,6 +233,7 @@ router.get('/rsvp-reply', function (req, res, next) {
 });
 
 router.get('/rsvp-null', function (req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     doc.scan({
         ProjectionExpression: "#l, #f, #rsvp",
         FilterExpression: "not (#rsvp = :t or #rsvp = :f)",
