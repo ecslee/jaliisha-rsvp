@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RSVP</title>
+    <link rel="shortcut icon" href="images/favicon-heart.ico" type="image/x-icon">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="http://www.joshandaliisa.com/libs/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="http://www.joshandaliisa.com/libs/bootstrap/js/bootstrap.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.31.0.min.js"></script>
+
+    <link rel="stylesheet" href="http://www.joshandaliisa.com/libs/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="http://www.joshandaliisa.com/css/jaliisha.css" />
+    <style>
+        body {
+            height: 100vh;
+            background-image: url('images/AJ-engagement-183.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        
+        .contents {
+            background-color: #fffbf5;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+        
+        .btn-container {
+            padding: 5px;
+        }
+        
+        #response-yes, #response-no {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="contents col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                    <h1>RSVP</h1>
+                    <h3>Are you coming?</h3>
+                    <span id="response-buttons">
+                        <span class="btn-container col-xs-6">
+                            <button id="btn-yes" class="btn btn-lg btn-success col-xs-12">yes <i class="glyphicon glyphicon-thumbs-up"></i></button>
+                        </span>
+                        <span class="btn-container col-xs-6">
+                            <button id="btn-no" class="btn btn-lg btn-danger col-xs-12">no <i class="glyphicon glyphicon-thumbs-down"></i></button>
+                        </span>
+                    </span>
+                    <span id="response-yes" style="display: none;">
+                        <p>Thanks! Can't wait to see you!</p>
+                    </span>
+                    <span id="response-no" style="display: none;">
+                        <p>Thanks! Sorry to miss you :(</p>
+                    </span>
+                    <div class="btn-container">
+                        <a href="http://www.joshandaliisa.com" class="btn btn-default btn-warning col-xs-12">www.JoshandAliisa.com <i class="glyphicon glyphicon-log-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $('#response-buttons .btn').click(function () {
+            $('#response-buttons').hide();
+            if (this.id == "btn-yes") {
+                $('#response-yes').show();
+            } else {
+                $('#response-no').show();
+            }
+        });
+        
+        AWS.config.update({
+            apiVersion: '2012-08-10',
+            region: "us-west-2",
+        });
+        
+        var doc = new AWS.DynamoDB.DocumentClient();
+        var emily = {
+            TableName: 'jaliisha-rsvp',
+            Item: {
+                'last': 'Lee',
+                'first': 'Emily',
+                'rsvp': true,
+                'info': {
+                    'diet': '',
+                    'comment': ''
+                }
+            }
+        };
+        
+        function getRsvpStatus(first, last) {
+            doc.get({
+                TableName: 'jaliisha-rsvp',
+                Key: {
+                    'last': last,
+                    'first': first
+                }
+            }, function (err, data) {
+                if (err) {
+                    console.log('GET ERROR', err);
+                }
+                // data = Item from table or {}
+                console.log(data);
+
+                if (data.Item && typeof data.Item.rsvp == 'boolean') {
+                    console.log('already rsvped:', data.Item.rsvp);
+                } else if (data.Item) {
+                    console.log('please rsvp');
+                } else {
+                    console.log('not on the guest list');
+                }
+            });
+        }
+//        
+//        doc.update({
+//            TableName: 'jaliisha-rsvp',
+//            Key: {
+//                'last': 'Lee',
+//                'first': 'Emily'
+//            },
+//            UpdateExpression: "set info.diet = :r",
+//            ExpressionAttributeValues:{
+//                ":r": 'lots of salad'
+//            },
+//            ReturnValues:"UPDATED_NEW"
+//        }, function (err, data) {
+//            if (err) {
+//                console.log('UPDATE ERROR', err);
+//            }
+//            // data = only change Attributes
+//            console.log(data);
+//        });
+//        
+//        doc.delete({
+//            TableName: 'jaliisha-rsvp',
+//            Key: {
+//                'last': 'Lee',
+//                'first': 'Emily'
+//            }
+//        }, function (err, data) {
+//            if (err) {
+//                console.log('DELETE ERROR', err);
+//            }
+//            // data = {}
+//            console.log(data);
+//        });
+        
+//        doc.put(emily, function (err, data) {
+//            if (err) {
+//                console.log('PUT ERROR', err);
+//            }
+//            // data = {}
+//            console.log(data);
+//        });
+        
+//        function sendRSVP() {
+//            var table = new AWS.DynamoDB({params: {TableName: 'jaliisha-rsvp'}});
+//            table.getItem({
+//                Item: {
+//                    last: 
+//                }
+//            }, function () {
+//                
+//            });
+//        }
+    </script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-60221539-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+
+</html>

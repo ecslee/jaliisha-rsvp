@@ -1,0 +1,182 @@
+<% include header %>
+<style>
+    #alerts .alert {
+        display: none;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="contents col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+            <div class="col-xs-12">
+                <h1>RSVP</h1>
+                <h3>Are you coming?</h3>
+                <div id="alerts" class="col-xs-10 col-xs-offset-1">
+                    <div id="guest-no" class="alert alert-warning" role="alert">Oops, we couldn't find you on the guest list.  Try again?</div>
+                    <div id="guest-new" class="alert alert-success" role="alert">Welcome!  Please RSVP for Aliisa & Josh's wedding.</div>
+                    <div id="guest-return" class="alert alert-success" role="alert">Welcome back!  Would you like to change your RSVP for Aliisa & Josh's wedding?</div>
+                    <div id="rsvp-empty" class="alert alert-warning" role="alert">Please select an RSVP option.</div>
+                    <div id="success-yes" class="alert alert-info" role="alert" style="text-align: center;">
+                        <p>Thank you!  We're excited to celebrate with you on June 25!</p>
+                        <a href="http://www.joshandaliisa.com">JoshandAliisa.com</a>
+                    </div>
+                    <div id="success-no" class="alert alert-info" role="alert" style="text-align: center;">
+                        <p>Thank you!  We're sorry you won't be able to join us.</p>
+                        <a href="http://www.joshandaliisa.com">JoshandAliisa.com</a>
+                    </div>
+                </div>
+                <div id="find-name" class="col-xs-10 col-xs-offset-1">
+                    <label for="first" class="col-xs-6">First <input id="first" type="text" name="name"></label>
+                    <label for="last" class="col-xs-6">Last <input id="last" type="text" name="name"></label>
+                </div>
+                <div id="edit-rsvp" class="col-xs-10 col-xs-offset-1" style="display: none;">
+                    <label for="yes" class="col-xs-6"><input id="yes" value="yes" type="radio" name="rsvp-option"> Yes, can't wait to celebrate!</label>
+                    <label for="no" class="col-xs-6"><input id="no" value="no" type="radio" name="rsvp-option"> No, I'll be celebrating from afar.</label>
+                </div>
+                <div id="comments" class="col-xs-10 col-xs-offset-1">
+                    <label for="diet" class="col-xs-8 col-xs-offset-2" style="display: none;">Dietary concerns? <input id="diet" type="text"></label>
+                    <textarea id="note" class="col-xs-8 col-xs-offset-2" placeholder="Comment for the bride and groom..." style="display: none;"></textarea>
+                </div>
+                <div id="btn-container" class="col-xs-2 col-xs-offset-10">
+                    <button id="find-name-btn" class="btn btn-warning">Find invite</button>
+                    <button id="edit-rsvp-btn" class="btn btn-warning" style="display: none;">RSVP</button>
+                    <button id="submit-btn" class="btn btn-success" style="display: none;">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var rsvpChoice;
+    function showRsvpOptions(preselected) {
+        $('#edit-rsvp-btn').show();
+        $('#edit-rsvp').show();
+        if (preselected === true) {
+            $('#alerts #guest-return').show();
+            $('#edit-rsvp #yes').prop('checked', true);
+        } else if (preselected === false) {
+            $('#alerts #guest-return').show();
+            $('#edit-rsvp #no').prop('checked', true);
+        } else {
+            $('#alerts #guest-new').show();
+        }
+    }
+    
+    $('#find-name-btn').click(function () {
+        $('#alerts .alert:visible').hide();
+        var that = this;
+        console.log('find name');
+        $.ajax({
+            url: '/name',
+            data: {
+                first: $('#first').val(),
+                last: $('#last').val()
+            },
+            success: function (data, success, jqxhr) {
+                data = JSON.parse(data);
+                if (data.error) {
+                    console.log('ERROR', data.err);
+                } else if (data.guest !== null) {
+                    // found the guest
+                    $(that).hide();
+                    $('#find-name input').attr('disabled', true);
+                    showRsvpOptions(data.guest.rsvp);
+                } else {
+                    $('#alerts #guest-no').show();
+                    $('#find-name input').val('');
+                }
+            },
+            error: function (jqxhr, status, errorMsg) {
+                console.log('ERROR', status, errorMsg);
+            }
+        });
+    });
+    
+    $('#edit-rsvp-btn').click(function () {
+        $('#alerts .alert:visible').hide();
+        
+        rsvpChoice = $('input:radio[name="rsvp-option"]:checked').val();
+        if (typeof rsvpChoice === 'undefined') {
+            $('#alerts #rsvp-empty').show();
+        } else {        
+            var that = this;
+            console.log('edit rsvp');
+            $(that).hide();
+            $('#edit-rsvp input').attr('disabled', true);
+            $('#submit-btn').show();
+
+            $('#comments textarea').show();
+            if (rsvpChoice === 'yes') {
+                $('#comments label').show();
+            }
+            
+            // no need to send this twice
+//            $.ajax({
+//                url: '/edit-rsvp',
+//                data: {
+//                    first: $('#first').val(),
+//                    last: $('#last').val(),
+//                    rsvp: rsvpChoice
+//                },
+//                success: function (data, success, jqxhr) {
+//                    data = JSON.parse(data);
+//                    if (data.err) {
+//                        console.log('ERROR', data.err);
+//                    }
+//
+//                    $(that).hide();
+//                    $('#edit-rsvp input').attr('disabled', true);
+//                    $('#submit-btn').show();
+//
+//                    $('#comments textarea').show();
+//                    if (data.rsvp) {
+//                        $('#comments label').show();
+//                    }
+//                },
+//                error: function (jqxhr, status, errorMsg) {
+//                    console.log('ERROR', status, errorMsg);
+//                }
+//            });
+        }
+    });
+    
+    $('#submit-btn').click(function () {
+        $('#alerts .alert:visible').hide();
+        var that = this;
+        console.log('submit, done');
+        $.ajax({
+            url: '/submit',
+            data: {
+                first: $('#first').val(),
+                last: $('#last').val(),
+                rsvp: $('input:radio[name="rsvp-option"]:checked').val(),
+                info: {
+                    diet: $('#comments #diet').val(),
+                    note: $('#comments #note').val()
+                }
+            },
+            success: function (data, success, jqxhr) {
+                data = JSON.parse(data);
+                if (data.error) {
+                    console.log('ERROR', data.err);
+                } else {
+                    $('#find-name').hide();
+                    $('#edit-rsvp').hide();
+                    $('#comments').hide();
+                    $('#btn-container').hide();
+                    if (data.rsvp) {
+                        $('#alerts #success-yes').show();
+                    } else {
+                        $('#alerts #success-no').show();
+                    }
+                }
+            },
+            error: function (jqxhr, status, errorMsg) {
+                console.log('ERROR', status, errorMsg);
+            }
+        });
+    });
+    
+</script>
+<% include footer %>
