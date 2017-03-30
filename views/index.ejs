@@ -75,7 +75,7 @@
             },
             success: function (data, success, jqxhr) {
                 if (data.error) {
-                    console.log('ERROR', data.err);
+                    console.log('ERROR', data.error);
                 } else if (data.guest !== null) {
                     // found the guest
                     $(that).hide();
@@ -125,7 +125,7 @@
             },
             function (data, success, jqxhr) {
                 if (data.error) {
-                    console.log('ERROR', data.err);
+                    console.log('ERROR', data.error);
                 } else {
                     $('#find-name').hide();
                     $('#edit-rsvp').hide();
