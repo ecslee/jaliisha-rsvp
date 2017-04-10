@@ -1,0 +1,29 @@
+#welcome { background-color: #027e8d; background-image: url("../images/just-josh-aliisa-no-bg.png"); background-size: contain; }
+
+#info { background-image: url("../images/Curtains-with-flowers.png"); background-repeat: no-repeat; background-position: top center; background-size: cover; height: 100vh; }
+
+#header { height: 200px; }
+#header::after { margin: 0px auto; }
+#header #alerts { min-height: 80px; }
+#header #alerts .alert { display: none; margin-top: 40px; }
+#header #alerts .alert.alert-warning { background-color: #f8d1c4; border-color: #f79674; color: #d25a3a; }
+#header #alerts .alert.alert-info { background-color: #e5b5d4; border-color: #e38ea7; color: #ba3166; }
+#header #alerts .alert.alert-success, #header #alerts .alert.alert-warning { background-color: #67cade; border-color: #027e8d; color: #023e5a; }
+
+#rsvp-form { padding-top: 10px; }
+#rsvp-form #btn-container { margin-top: 20px; }
+#rsvp-form #btn-container button { float: right; clear: right; }
+
+.btn-warning { background-color: #f79674; border-color: #d25a3a; }
+.btn-warning:hover { background-color: #d25a3a; }
+
+.btn-info { background-color: #e38ea7; border-color: #ba3166; }
+.btn-info:hover { background-color: #ba3166; }
+
+.btn-success { background-color: #027e8d; border-color: #023e5a; }
+.btn-success:hover { background-color: #023e5a; }
+
+/* Admin page */
+.guest { height: 40px; padding: 5px; line-height: 40px; background-color: white; }
+.guest:nth-child(even) { background-color: rgba(10, 87, 123, 0.8); }
+.guest:hover { background-color: teal; color: white; }

@@ -1,0 +1,132 @@
+// from joshandaliisa.com
+$teal: rgb(10, 87, 123); // #0a577b
+$teal-light: #0E79AB; // #0a577b
+$teal-lightest: #4694B9; // #0a577b
+$teal-trans: rgba(10, 87, 123, 0.8);
+$orange: rgb(242, 116, 66); // #f27442
+
+// rsvp colors
+$teal-bg-dark: rgb(2, 62, 90);
+$teal-bg: rgb(2, 126, 141);
+$teal-bg-lite: rgb(103, 202, 222);
+$rorange-dark: rgb(210, 90, 58);
+$rorange: rgb(247, 150, 116);
+$rorange-lite: rgb(248, 209, 196);
+$pink-dark: rgb(186, 49, 102);
+$pink: rgb(227, 142, 167);
+$pink-lite: rgb(229, 181, 212);
+$yellow-dark: rgb(0, 149, 77);
+$yellow: rgb(243, 209, 45);
+$yellow-lite: rgb(248, 244, 176);
+
+
+#welcome {
+    background-color: $teal-bg;
+    background-image: url('../images/just-josh-aliisa-no-bg.png');
+    background-size: contain;
+}
+
+#info {
+    background-image: url('../images/Curtains-with-flowers.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    height: 100vh;
+//    padding-top: 50px;
+}
+
+#header {
+    height: 200px;
+    
+    &::after {
+        margin: 0px auto;
+    }
+    
+    #alerts {
+        min-height: 80px;
+
+        .alert {
+            display: none;
+            margin-top: 40px;
+
+            // an alert that requires action
+            &.alert-warning {
+                background-color: $rorange-lite;
+                border-color: $rorange;
+                color: $rorange-dark;
+            }
+
+            &.alert-info {
+                background-color: $pink-lite;
+                border-color: $pink;
+                color: $pink-dark;
+            }
+
+            &.alert-success, &.alert-warning {
+                background-color: $teal-bg-lite;
+                border-color: $teal-bg;
+                color: $teal-bg-dark;
+            }
+        }
+    }
+}
+
+#rsvp-form {
+    padding-top: 10px;
+    
+    #btn-container {
+        margin-top: 20px;
+        
+        button {
+            float: right;
+            clear: right;
+        }
+    }
+}
+
+
+
+.btn-warning {
+    background-color: $rorange;
+    border-color: $rorange-dark;
+    
+    &:hover {
+        background-color: $rorange-dark;
+    }
+}
+
+.btn-info {
+    background-color: $pink;
+    border-color: $pink-dark;
+    
+    &:hover {
+        background-color: $pink-dark;
+    }
+}
+
+.btn-success {
+    background-color: $teal-bg;
+    border-color: $teal-bg-dark;
+    
+    &:hover {
+        background-color: $teal-bg-dark;
+    }
+}
+
+/* Admin page */
+
+.guest {
+    height: 40px;
+    padding: 5px;
+    line-height: 40px;
+    background-color: white;
+    
+    &:nth-child(even) {
+        background-color: $teal-trans;
+    }
+    
+    &:hover {
+        background-color: teal;
+        color: white;
+    }
+}
