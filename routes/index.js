@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var EJS = require('EJS');
 
 var AWS = require('aws-sdk');
 
@@ -43,15 +44,43 @@ router.get('/name', function (req, res, next) {
         
         if (data.Item) {
             // build a simpler guest object
+            var first = data.Item.first.S,
+                last = data.Item.last.S,
+                family = [];
+            family.push({
+                first: first,
+                last: last
+            });
+            
+            if (data.Item.family && data.Item.family.L) {
+                for (var n = 0; n < data.Item.family.L.length; n++) {
+                    var name = data.Item.family.L[n].S.split(', ');
+                    family.push({
+                        first: name[1],
+                        last: name[0]
+                    });
+                }
+            }
+            
             response.guest = {
-                first: data.Item.first.S,
-                last: data.Item.last.S,
+                first: first,
+                last: last,
                 rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null,
-                data: data.Item.data
+                family: family
             };
         }
         
-        res.end(JSON.stringify(response));
+        var rsvpList = EJS.renderFile(
+            'views/rsvp-list.ejs',
+            { family: family },
+            function (err, str) {
+                console.log(str);
+                if (err) {
+                    response.error = err;
+                }
+                response.rsvpList = str;
+                res.end(JSON.stringify(response));
+        });
     });
 });
 

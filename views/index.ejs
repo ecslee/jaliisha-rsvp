@@ -10,18 +10,14 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div id="welcome" class="hidden-xs col-xs-7">
-            <h1>RSVP</h1>
-        </div>
-        <div id="info" class="col-xs-12 col-sm-5">
-            <div id="header" class="info-section no-separator">
-                <div class="img-wrapper col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                    <img src="http://www.joshandaliisa.com/images/sketches/Flower-garlands-top.jpg">
-                </div>
-                <div id="alerts" class="col-xs-10 col-xs-offset-1">
-                    <div id="guest-no" class="alert alert-warning" role="alert">Oops, we couldn't find you on the guest list.  Try again?</div>
+        <div id="info" class="col-xs-12 col-sm-7">
+            <div id="header" class="info-section no-separator col-xs-8 col-xs-offset-2">
+                <div id="alerts">
+                    <div id="guest-start" class="alert alert-warning" role="alert" style="display: block;">Welcome!  Please enter your name to find your invitation.</div>
+                    <div id="guest-no" class="alert alert-warning" role="alert">Oops, we couldn't find you on the guest list.  Try typing your name as it's found on your invite.</div>
                     <div id="guest-new" class="alert alert-success" role="alert">Welcome!  Please RSVP for Aliisa & Josh's wedding.</div>
-                    <div id="guest-return" class="alert alert-success" role="alert">Welcome back!  Would you like to change your RSVP for Aliisa & Josh's wedding?</div>
+                    <div id="guest-new-party" class="alert alert-success" role="alert">Welcome!  Please RSVP for you and your party.</div>
+                    <div id="guest-return" class="alert alert-success" role="alert">Welcome back!  Do you need to change your RSVP for Aliisa & Josh's wedding?</div>
                     <div id="rsvp-empty" class="alert alert-warning" role="alert">Please select an RSVP option.</div>
                     <div id="success-yes" class="alert alert-info" role="alert" style="text-align: center;">
                         <p>Thank you!  We're excited to celebrate with you on June 25!</p>
@@ -33,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div id="rsvp-form" class="info-section">
+            <div id="rsvp-form" class="info-section col-xs-8 col-xs-offset-2">
                 <div id="find-name" class="form-inline col-xs-10 col-xs-offset-1 col-sm-12 col-sm-offset-0">
                     <div class="form-group">
                         <label for="first">First</label>
@@ -44,38 +40,60 @@
                         <input id="last" type="text" name="name">
                     </div>
                 </div>
-                <div id="edit-rsvp" class="col-xs-10 col-xs-offset-1" style="display: none;">
-                    <label for="yes" class="col-xs-6"><input id="yes" value="yes" type="radio" name="rsvp-option"> Yes, can't wait to celebrate!</label>
-                    <label for="no" class="col-xs-6"><input id="no" value="no" type="radio" name="rsvp-option"> No, I'll be celebrating from afar.</label>
+                <div id="edit-rsvp" class="col-xs-12" style="display: none;">
+                    <div id="rsvp-list"></div>
+                    <div class="form-inline">
+                        <label id="diet-label" for="diet" class="form-group" style="display: none;">Dietary concerns? <input id="diet" type="text"></label>
+                        <textarea id="note" class="form-group col-xs-12" placeholder="Comment for the bride and groom..."></textarea>
+                    </div>
                 </div>
-                <div id="comments" class="col-xs-10 col-xs-offset-1">
-                    <label for="diet" class="col-xs-8 col-xs-offset-2" style="display: none;">Dietary concerns? <input id="diet" type="text"></label>
-                    <textarea id="note" class="col-xs-8 col-xs-offset-2" placeholder="Comment for the bride and groom..." style="display: none;"></textarea>
-                </div>
-                <div id="btn-container" class="col-xs-3 col-xs-offset-9">
+                <div id="btn-container" class="col-xs-10 col-xs-offset-1 pull-right">
                     <button id="find-name-btn" class="btn btn-warning">Find invite</button>
                     <button id="edit-rsvp-btn" class="btn btn-warning" style="display: none;">RSVP</button>
                     <button id="submit-btn" class="btn btn-success" style="display: none;">Submit</button>
                 </div>
             </div>
         </div>
+        <div id="welcome" class="hidden-xs col-xs-5">
+<!--            <h1>RSVP</h1>-->
+        </div>
     </div>
 </div>
 
 <script>
     var rsvpChoice;
-    function showRsvpOptions(preselected) {
+    function showRsvpOptions(guest, rsvpList) {
         $('#edit-rsvp-btn').show();
         $('#edit-rsvp').show();
-        if (preselected === true) {
+        if (guest.rsvp === true) {
             $('#alerts #guest-return').show();
             $('#edit-rsvp #yes').prop('checked', true);
-        } else if (preselected === false) {
+        } else if (guest.rsvp === false) {
             $('#alerts #guest-return').show();
             $('#edit-rsvp #no').prop('checked', true);
+        } else if (Object.keys(guest.family).length > 1) {
+            $('#alerts #guest-new-party').show();
         } else {
             $('#alerts #guest-new').show();
         }
+        
+        $('#edit-rsvp #rsvp-list').append(rsvpList);
+        attachRadioListeners();
+    }
+    
+    function attachRadioListeners () {
+        $('#edit-rsvp input[type="radio"]').click(function () {
+            var anyYes = false;
+            var radios = $('#edit-rsvp input[type="radio"][value="yes"]');
+            for (var r = 0; r < radios.length; r++) {
+                if (radios[r].checked) {
+                    anyYes = true;
+                    break;
+                }
+            }
+
+            anyYes ? $('#edit-rsvp #diet-label').show() : $('#edit-rsvp #diet-label').hide();
+        });
     }
     
     $('#find-name-btn').click(function () {
@@ -95,7 +113,8 @@
                     // found the guest
                     $(that).hide();
                     $('#find-name input').attr('disabled', true);
-                    showRsvpOptions(data.guest.rsvp);
+                    $('#find-name').hide();
+                    showRsvpOptions(data.guest, data.rsvpList);
                 } else {
                     $('#alerts #guest-no').show();
                     $('#find-name input').val('');
