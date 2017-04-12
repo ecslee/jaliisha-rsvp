@@ -74,7 +74,7 @@ function getFamily(family, callback) {
         if (err) {
             callback(err);
         } else {
-            callback(data);
+            callback(data.Items);
         }
         
         return;
@@ -100,19 +100,24 @@ router.get('/invite', function (req, res, next) {
         }
         
         if (data.Item) {
-            var family = parseFamily(data.Item);
             function getFamilyCallback(familyItems) {
+                familyItems.splice(0, 0, {
+                    first: data.Item.first.S,
+                    last: data.Item.last.S,
+                    rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null
+                });
+                
                 // build a simpler guest object
                 response.guest = {
                     first: data.Item.first.S,
                     last: data.Item.last.S,
                     rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null,
-                    family: familyItems.Items
+                    family: familyItems
                 };
 
                 var rsvpList = EJS.renderFile(
                     'views/rsvp-list.ejs',
-                    { family: familyItems.Items },
+                    { family: familyItems },
                     function (err, str) {
                         console.log(str);
                         if (err) {
@@ -123,7 +128,11 @@ router.get('/invite', function (req, res, next) {
                 });
             }
             
-            getFamily(data.Item.family, getFamilyCallback);
+            if (data.Item.family && data.Item.family.L && data.Item.family.L.length > 0) {
+                getFamily(data.Item.family, getFamilyCallback);
+            } else {
+                getFamilyCallback([]);
+            }
         }
     });
 });

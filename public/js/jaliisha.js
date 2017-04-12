@@ -15,22 +15,21 @@ function showRsvpOptions(guest, rsvpList) {
     }
 
     $('#edit-rsvp #rsvp-list').append(rsvpList);
-    attachRadioListeners();
+    $('#edit-rsvp input[type="radio"]').click(checkForYes);
+    checkForYes();
 }
 
-function attachRadioListeners () {
-    $('#edit-rsvp input[type="radio"]').click(function () {
-        var anyYes = false;
-        var radios = $('#edit-rsvp input[type="radio"][value="yes"]');
-        for (var r = 0; r < radios.length; r++) {
-            if (radios[r].checked) {
-                anyYes = true;
-                break;
-            }
+function checkForYes () {
+    var anyYes = false;
+    var radios = $('#edit-rsvp input[type="radio"][value="yes"]');
+    for (var r = 0; r < radios.length; r++) {
+        if (radios[r].checked) {
+            anyYes = true;
+            break;
         }
+    }
 
-        anyYes ? $('#edit-rsvp #diet-label').show() : $('#edit-rsvp #diet-label').hide();
-    });
+    anyYes ? $('#edit-rsvp #diet-label').show() : $('#edit-rsvp #diet-label').hide();
 }
 
 $('#find-name-btn').click(function () {
