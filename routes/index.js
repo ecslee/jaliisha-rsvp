@@ -24,7 +24,64 @@ router.get('/', function (req, res) {
     res.render('index');
 });
 
-router.get('/name', function (req, res, next) {
+function parseFamily(itemFamily) {
+    var family = [];
+
+    if (itemFamily && itemFamily.L) {
+        for (var n = 0; n < itemFamily.L.length; n++) {
+            var name = itemFamily.L[n].S.split(', ');
+            family.push({
+                first: name[1],
+                last: name[0]
+            });
+        }
+    }
+    
+    return family;
+}
+
+function getFamily(family, callback) {
+    var familyList = parseFamily(family);
+    
+    var filterExp = '',
+        attributeVals = {},
+        lastNames = [];
+    for (var f = 0; f < familyList.length; f++) {
+        if (lastNames.indexOf(familyList[f].last) === -1) {
+            lastNames.push(familyList[f].last);
+            attributeVals[':l' + (lastNames.length - 1)] = familyList[f].last;
+        }
+        
+        attributeVals[':f' + f] = familyList[f].first;
+        filterExp += '(#l = :l' + lastNames.indexOf(familyList[f].last)
+                   + ' and #f = :f' + f + ') or ';
+    }
+    filterExp = filterExp.slice(0, -4);
+    
+    doc.scan({
+        ProjectionExpression: "#l, #f, #rsvp",
+        FilterExpression: filterExp,
+        ExpressionAttributeNames: {
+            "#l": "last",
+            "#f": "first",
+            "#rsvp": "rsvp",
+        },
+        ExpressionAttributeValues: attributeVals
+    }, function (err, data) {
+        console.log('err', err);
+        console.log('data', data);
+        
+        if (err) {
+            callback(err);
+        } else {
+            callback(data);
+        }
+        
+        return;
+    });
+}
+
+router.get('/invite', function (req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     var response = {
         error: null,
@@ -43,44 +100,31 @@ router.get('/name', function (req, res, next) {
         }
         
         if (data.Item) {
-            // build a simpler guest object
-            var first = data.Item.first.S,
-                last = data.Item.last.S,
-                family = [];
-            family.push({
-                first: first,
-                last: last
-            });
-            
-            if (data.Item.family && data.Item.family.L) {
-                for (var n = 0; n < data.Item.family.L.length; n++) {
-                    var name = data.Item.family.L[n].S.split(', ');
-                    family.push({
-                        first: name[1],
-                        last: name[0]
-                    });
-                }
+            var family = parseFamily(data.Item);
+            function getFamilyCallback(familyItems) {
+                // build a simpler guest object
+                response.guest = {
+                    first: data.Item.first.S,
+                    last: data.Item.last.S,
+                    rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null,
+                    family: familyItems.Items
+                };
+
+                var rsvpList = EJS.renderFile(
+                    'views/rsvp-list.ejs',
+                    { family: familyItems.Items },
+                    function (err, str) {
+                        console.log(str);
+                        if (err) {
+                            response.error = err;
+                        }
+                        response.rsvpList = str;
+                        res.end(JSON.stringify(response));
+                });
             }
             
-            response.guest = {
-                first: first,
-                last: last,
-                rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null,
-                family: family
-            };
+            getFamily(data.Item.family, getFamilyCallback);
         }
-        
-        var rsvpList = EJS.renderFile(
-            'views/rsvp-list.ejs',
-            { family: family },
-            function (err, str) {
-                console.log(str);
-                if (err) {
-                    response.error = err;
-                }
-                response.rsvpList = str;
-                res.end(JSON.stringify(response));
-        });
     });
 });
 

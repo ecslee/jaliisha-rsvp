@@ -38,7 +38,7 @@ $('#find-name-btn').click(function () {
     var that = this;
     console.log('find name');
     $.ajax({
-        url: '/name',
+        url: '/invite',
         data: {
             first: $('#first').val(),
             last: $('#last').val()
