@@ -41,36 +41,19 @@ function parseFamily(itemFamily) {
 }
 
 function getFamily(family, callback) {
-    var familyList = parseFamily(family);
-    
-    var filterExp = '',
-        attributeVals = {},
-        lastNames = [];
-    for (var f = 0; f < familyList.length; f++) {
-        if (lastNames.indexOf(familyList[f].last) === -1) {
-            lastNames.push(familyList[f].last);
-            attributeVals[':l' + (lastNames.length - 1)] = familyList[f].last;
-        }
-        
-        attributeVals[':f' + f] = familyList[f].first;
-        filterExp += '(#l = :l' + lastNames.indexOf(familyList[f].last)
-                   + ' and #f = :f' + f + ') or ';
-    }
-    filterExp = filterExp.slice(0, -4);
-    
     doc.scan({
-        ProjectionExpression: "#l, #f, #rsvp",
-        FilterExpression: filterExp,
+        ProjectionExpression: "#l, #f, #fam, #rsvp",
+        FilterExpression: "#fam = :f",
         ExpressionAttributeNames: {
             "#l": "last",
             "#f": "first",
+            "#fam": "family",
             "#rsvp": "rsvp",
         },
-        ExpressionAttributeValues: attributeVals
+        ExpressionAttributeValues: {
+            ":f": family
+        }
     }, function (err, data) {
-        console.log('err', err);
-        console.log('data', data);
-        
         if (err) {
             callback(err);
         } else {
@@ -101,6 +84,12 @@ router.get('/invite', function (req, res, next) {
         
         if (data.Item) {
             function getFamilyCallback(familyItems) {
+                // Put the RSVP-er first
+                var rsvper;
+                familyItems = familyItems.filter(function (el, i) {
+                    return !(el.first === req.query.first && el.last === req.query.last);
+                });
+                
                 familyItems.splice(0, 0, {
                     first: data.Item.first.S,
                     last: data.Item.last.S,
@@ -108,12 +97,7 @@ router.get('/invite', function (req, res, next) {
                 });
                 
                 // build a simpler guest object
-                response.guest = {
-                    first: data.Item.first.S,
-                    last: data.Item.last.S,
-                    rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null,
-                    family: familyItems
-                };
+                response.guests = familyItems;
 
                 var rsvpList = EJS.renderFile(
                     'views/rsvp-list.ejs',
@@ -127,8 +111,8 @@ router.get('/invite', function (req, res, next) {
                 });
             }
             
-            if (data.Item.family && data.Item.family.L && data.Item.family.L.length > 0) {
-                getFamily(data.Item.family, getFamilyCallback);
+            if (data.Item.family && data.Item.family.S) {
+                getFamily(data.Item.family.S, getFamilyCallback);
             } else {
                 getFamilyCallback([]);
             }

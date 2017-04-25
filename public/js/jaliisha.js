@@ -1,22 +1,25 @@
 var rsvpChoice;
-function showRsvpOptions(guest, rsvpList) {
-    $('#submit-btn').show();
-    $('#edit-rsvp').show();
-    if (guest.rsvp === true) {
-        $('#alerts #guest-return').show();
-        $('#edit-rsvp #yes').prop('checked', true);
-    } else if (guest.rsvp === false) {
-        $('#alerts #guest-return').show();
-        $('#edit-rsvp #no').prop('checked', true);
-    } else if (Object.keys(guest.family).length > 1) {
+function showRsvpOptions(guests, rsvpList) {
+    $('#edit-rsvp #rsvp-list').append(rsvpList);
+    guests.forEach(function (el, i) {
+        if (el.rsvp === true) {
+            $('#rsvp-option-' + el.first + '[value="yes"]').click();
+        } else if (el.rsvp === false) {
+            $('#rsvp-option-' + el.first + '[value="no"]').click();
+        }
+    });
+    
+    if (guests.length > 1) {
         $('#alerts #guest-new-party').show();
     } else {
         $('#alerts #guest-new').show();
     }
-
-    $('#edit-rsvp #rsvp-list').append(rsvpList);
+    
     $('#edit-rsvp input[type="radio"]').click(checkForYes);
     checkForYes();
+    
+    $('#submit-btn').show();
+    $('#edit-rsvp').show();
 }
 
 function checkForYes () {
@@ -45,12 +48,12 @@ $('#find-name-btn').click(function () {
         success: function (data, success, jqxhr) {
             if (data.error) {
                 console.log('ERROR', data.error);
-            } else if (data.guest !== null) {
+            } else if (data.guests !== null) {
                 // found the guest
                 $(that).hide();
                 $('#find-name input').attr('disabled', true);
                 $('#find-name').hide();
-                showRsvpOptions(data.guest, data.rsvpList);
+                showRsvpOptions(data.guests, data.rsvpList);
             } else {
                 $('#alerts #guest-no').show();
                 $('#find-name input').val('');
