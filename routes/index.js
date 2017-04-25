@@ -77,7 +77,6 @@ router.get('/invite', function (req, res, next) {
             last: { S: req.query.last }
         }
     }, function (err, data) {
-        console.log(data);
         if (err) {
             response.error = err;
         }
@@ -93,6 +92,7 @@ router.get('/invite', function (req, res, next) {
                 familyItems.splice(0, 0, {
                     first: data.Item.first.S,
                     last: data.Item.last.S,
+                    family: data.Item.family ? data.Item.family.S : null,
                     rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null
                 });
                 
@@ -146,35 +146,52 @@ router.post('/edit-rsvp', function (req, res, next) {
 
 router.post('/submit', function (req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    var val = (req.body && req.body.rsvp) ? (req.body.rsvp === 'yes') : false;
-    var response = {
-        error: null,
-        rsvp: null
-    };
-    
-    var item = {
-        first: { S: req.body.first },
-        last: { S: req.body.last },
-        rsvp: { BOOL: val }
-    };
-    
-    if (req.body.diet) {
-        item.diet = { S: req.body.diet }
-    }
-    
-    if (req.body.note) {
-        item.note = { S: req.body.note }
-    }
-    
-    db.putItem({
-        Item: item
-    }, function (err, data) {
-        if (err) {
-            response.error = err;
+    var updatesLeft = req.body.rsvps.length;
+    var familyRSVP = false;
+    req.body.rsvps.forEach(function (el, i) {
+        var response = {
+            error: null,
+            rsvp: null
+        };
+        
+        var rsvpVal = el.rsvp ? el.rsvp === 'yes' : false;
+        familyRSVP = familyRSVP || rsvpVal;
+        
+        var updateExpression = "set rsvp = :r",
+            expressionAttr = {
+                ":r": { BOOL: rsvpVal },
+            };
+        
+        if (i === 0 && req.body.diet) {
+            updateExpression += ", diet = :d";
+            expressionAttr[":d"] = { S: req.body.diet };
         }
         
-        response.rsvp = val;
-        res.end(JSON.stringify(response));
+        if (i === 0 && req.body.note) {
+            updateExpression += ", note = :n";
+            expressionAttr[":n"] = { S: req.body.note };
+        }
+
+        db.updateItem({
+            Key: {
+                first: { S: el.first },
+                last: { S: el.last }
+            },
+            UpdateExpression: updateExpression,
+            ExpressionAttributeValues: expressionAttr,
+            ReturnValues: "ALL_NEW"
+        }, function (err, data) {
+            if (err) {
+                response.error = err;
+            }
+
+            response.rsvp = familyRSVP;
+            
+            updatesLeft--;
+            if (updatesLeft === 0) {
+                res.end(JSON.stringify(response));
+            }
+        });
     });
 });
 
