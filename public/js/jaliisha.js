@@ -35,9 +35,15 @@ function checkForYes () {
     anyYes ? $('#edit-rsvp').find('#diet-label, #diet').show() : $('#edit-rsvp').find('#diet-label, #diet').hide();
 }
 
+$('#find-name').keypress(function (evt) {
+    if (evt.which === 13) {
+        $('#find-name-btn').click();
+    }
+});
+
 $('#find-name-btn').click(function () {
-    var first = $('#first').val().trim(),
-        last = $('#last').val().trim();
+    var first = $('#first').val(),
+        last = $('#last').val();
     
     $('#alerts .alert:visible').hide();
     var that = this;

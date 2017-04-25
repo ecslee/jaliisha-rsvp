@@ -73,10 +73,13 @@ router.get('/invite', function (req, res, next) {
         guest: null
     };
     
+    var findFirst = req.query.first.trim().toLowerCase(),
+        findLast = req.query.last.trim().toLowerCase();
+    
     db.getItem({
         Key: {
-            first: { S: req.query.first },
-            last: { S: req.query.last }
+            first: { S: findFirst },
+            last: { S: findLast }
         }
     }, function (err, data) {
         if (err) {
@@ -91,14 +94,25 @@ router.get('/invite', function (req, res, next) {
                 // Put the RSVP-er first
                 var rsvper;
                 familyItems = familyItems.filter(function (el, i) {
-                    return !(el.first === req.query.first && el.last === req.query.last);
+                    if (el.first === findFirst && el.last === findLast) {
+                        rsvper = el;
+                        return false;
+                    }
+                    
+                    return true;
                 });
                 
-                familyItems.splice(0, 0, {
-                    first: data.Item.first.S,
-                    last: data.Item.last.S,
-                    family: data.Item.family ? data.Item.family.S : null,
-                    rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null
+                familyItems.splice(0, 0, rsvper);
+                
+                // title case
+                familyItems.forEach(function (el, i) {
+                    var firstName = el.first.split(' ');
+                    firstName.forEach(function (namePart, i, arr) { arr[i] = namePart.substr(0, 1).toUpperCase() + namePart.substr(1); });
+                    el.first = firstName.join(' ');
+                    
+                    var lastName = el.last.split(' ');
+                    lastName.forEach(function (namePart, i, arr) { arr[i] = namePart.substr(0, 1).toUpperCase() + namePart.substr(1); });
+                    el.last = lastName.join(' ');
                 });
                 
                 // build a simpler guest object
@@ -189,8 +203,8 @@ router.post('/submit', function (req, res, next) {
 
         db.updateItem({
             Key: {
-                first: { S: el.first },
-                last: { S: el.last }
+                first: { S: el.first.trim().toLowerCase() },
+                last: { S: el.last.trim().toLowerCase() }
             },
             UpdateExpression: updateExpression,
             ExpressionAttributeValues: expressionAttr,
