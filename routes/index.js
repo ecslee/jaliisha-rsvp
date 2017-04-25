@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var EJS = require('EJS');
+var EJS = require('ejs');
 
 var AWS = require('aws-sdk');
 
