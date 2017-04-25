@@ -1,6 +1,6 @@
 var rsvpChoice;
 function showRsvpOptions(guest, rsvpList) {
-    $('#edit-rsvp-btn').show();
+    $('#submit-btn').show();
     $('#edit-rsvp').show();
     if (guest.rsvp === true) {
         $('#alerts #guest-return').show();
@@ -29,7 +29,7 @@ function checkForYes () {
         }
     }
 
-    anyYes ? $('#edit-rsvp #diet-label').show() : $('#edit-rsvp #diet-label').hide();
+    anyYes ? $('#edit-rsvp').find('#diet-label, #diet').show() : $('#edit-rsvp').find('#diet-label, #diet').hide();
 }
 
 $('#find-name-btn').click(function () {
@@ -86,10 +86,17 @@ $('#submit-btn').click(function () {
     $('#alerts .alert:visible').hide();
     var that = this;
     console.log('submit, done');
+    var rsvps = [];
+    $('.rsvp-guest').each(function (i, el) {
+        rsvps.push({
+            first: $(this).data('first'),
+            last: $(this).data('last'),
+            rsvp: $(this).find('input:radio:checked').val(),
+        });
+    });
+    
     $.post('/submit', {
-            first: $('#first').val(),
-            last: $('#last').val(),
-            rsvp: $('input:radio[name="rsvp-option"]:checked').val(),
+            rsvps: rsvps,
             diet: $('#comments #diet').val(),
             note: $('#comments #note').val()
         },

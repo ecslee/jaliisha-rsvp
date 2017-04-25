@@ -119,7 +119,6 @@ router.get('/invite', function (req, res, next) {
                     'views/rsvp-list.ejs',
                     { family: familyItems },
                     function (err, str) {
-                        console.log(str);
                         if (err) {
                             response.error = err;
                         }
