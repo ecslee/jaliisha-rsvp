@@ -36,9 +36,8 @@ function checkForYes () {
 }
 
 $('#find-name-btn').click(function () {
-    var first = $('#first').val(),
-        last = $('#last').val();
-    console.log('RSVP CALL    [find name] ' + last + ', ' + first);
+    var first = $('#first').val().trim(),
+        last = $('#last').val().trim();
     
     $('#alerts .alert:visible').hide();
     var that = this;
@@ -52,15 +51,12 @@ $('#find-name-btn').click(function () {
             if (data.error) {
                 console.log('RSVP ERROR   [find name] ' + last + ', ' + first + ' - ' + data.error);
             } else if (data.guests !== null) {
-                console.log('RSVP SUCCESS [find name] ' + last + ', ' + first + ' - family: ' + data.guests[0].family);
-                
                 // found the guest
                 $(that).hide();
                 $('#find-name input').attr('disabled', true);
                 $('#find-name').hide();
                 showRsvpOptions(data.guests, data.rsvpList);
             } else {
-                console.log('RSVP WARNING [find name] ' + last + ', ' + first + ' - not found');
                 $('#alerts #guest-no').show();
                 $('#find-name input').val('');
             }
@@ -99,7 +95,6 @@ $('#submit-btn').click(function () {
         var first = $(this).data('first'),
             last = $(this).data('last'),
             rsvp = $(this).find('input:radio:checked').val();
-        console.log('RSVP CALL    [rsvp done] ' + last + ', ' + first + ' - ' + rsvp);
         rsvps.push({
             first: first,
             last: last,
@@ -108,9 +103,7 @@ $('#submit-btn').click(function () {
     });
     
     var diet = $('#edit-rsvp #diet').val(),
-        note = $('#edit-rsvp #note').val()
-    console.log('RSVP CALL    [rsvp done] ' + rsvps[0].last + ', ' + rsvps[0].first + ' - diet: ' + diet);
-    console.log('RSVP CALL    [rsvp done] ' + rsvps[0].last + ', ' + rsvps[0].first + ' - note: ' + note);
+        note = $('#edit-rsvp #note').val();
     
     $.post('/submit', {
             rsvps: rsvps,
@@ -121,7 +114,6 @@ $('#submit-btn').click(function () {
             if (data.error) {
                 console.log('RSVP ERROR   [rsvp done] ' + rsvps[0].last + ', ' + rsvps[0].first + ' - ' + data.error);
             } else {
-                console.log('RSVP SUCCESS [rsvp done] ' + rsvps[0].last + ', ' + rsvps[0].first);
                 $('#find-name').hide();
                 $('#edit-rsvp').hide();
                 $('#btn-container').hide();

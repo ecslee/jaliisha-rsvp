@@ -40,7 +40,7 @@ function parseFamily(itemFamily) {
     return family;
 }
 
-function getFamily(family, callback) {
+function getFamily(familyName, callback) {
     doc.scan({
         ProjectionExpression: "#l, #f, #fam, #rsvp",
         FilterExpression: "#fam = :f",
@@ -51,13 +51,13 @@ function getFamily(family, callback) {
             "#rsvp": "rsvp",
         },
         ExpressionAttributeValues: {
-            ":f": family
+            ":f": familyName
         }
     }, function (err, data) {
         if (err) {
-            callback(err);
+            callback(familyName, err);
         } else {
-            callback(data.Items);
+            callback(familyName, data.Items);
         }
         
         return;
@@ -65,6 +65,8 @@ function getFamily(family, callback) {
 }
 
 router.get('/invite', function (req, res, next) {
+    console.log(`RSVP CALL    [find name] ${req.query.last}, ${req.query.first}`);
+    
     res.setHeader('Content-Type', 'application/json');
     var response = {
         error: null,
@@ -78,11 +80,14 @@ router.get('/invite', function (req, res, next) {
         }
     }, function (err, data) {
         if (err) {
+            console.log(`RSVP ERROR   [find name] ${req.query.last}, ${req.query.first} - ${err}`);
             response.error = err;
         }
         
         if (data.Item) {
-            function getFamilyCallback(familyItems) {
+            function getFamilyCallback(familyName, familyItems) {
+                console.log(`RSVP SUCCESS [find name] ${req.query.last}, ${req.query.first} - get family: ${familyName}`);
+                
                 // Put the RSVP-er first
                 var rsvper;
                 familyItems = familyItems.filter(function (el, i) {
@@ -107,6 +112,8 @@ router.get('/invite', function (req, res, next) {
                             response.error = err;
                         }
                         response.rsvpList = str;
+                        
+                        console.log(`RSVP SUCCESS [find name] ${req.query.last}, ${req.query.first} - display family: ${familyName}`);
                         res.end(JSON.stringify(response));
                 });
             }
@@ -114,8 +121,12 @@ router.get('/invite', function (req, res, next) {
             if (data.Item.family && data.Item.family.S) {
                 getFamily(data.Item.family.S, getFamilyCallback);
             } else {
-                getFamilyCallback([]);
+                getFamilyCallback('', []);
             }
+        } else {
+            console.log(`RSVP WARNING [find name] ${req.query.last}, ${req.query.first} - not found`);
+            response.guests = null;
+            res.end(JSON.stringify(response));
         }
     });
 });
@@ -149,6 +160,8 @@ router.post('/submit', function (req, res, next) {
     var updatesLeft = req.body.rsvps.length;
     var familyRSVP = false;
     req.body.rsvps.forEach(function (el, i) {
+        console.log(`RSVP CALL    [rsvp done] ${el.last}, ${el.first} - ${el.rsvp}`);
+        
         var response = {
             error: null,
             rsvp: null
@@ -163,11 +176,13 @@ router.post('/submit', function (req, res, next) {
             };
         
         if (i === 0 && req.body.diet) {
+            console.log(`RSVP CALL    [rsvp done] ${el.last}, ${el.first} - diet: ${req.body.diet}`);
             updateExpression += ", diet = :d";
             expressionAttr[":d"] = { S: req.body.diet };
         }
         
         if (i === 0 && req.body.note) {
+            console.log(`RSVP CALL    [rsvp done] ${el.last}, ${el.first} - note: ${req.body.note}`);
             updateExpression += ", note = :n";
             expressionAttr[":n"] = { S: req.body.note };
         }
@@ -182,6 +197,7 @@ router.post('/submit', function (req, res, next) {
             ReturnValues: "ALL_NEW"
         }, function (err, data) {
             if (err) {
+                console.log(`RSVP ERROR   [rsvp done] ${el.last}, ${el.first} - error: ${err}`);
                 response.error = err;
             }
 
@@ -189,6 +205,7 @@ router.post('/submit', function (req, res, next) {
             
             updatesLeft--;
             if (updatesLeft === 0) {
+                console.log(`RSVP SUCCESS [rsvp done] familyRSVP: ${familyRSVP}`);
                 res.end(JSON.stringify(response));
             }
         });
