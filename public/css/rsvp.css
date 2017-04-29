@@ -1,6 +1,6 @@
-#welcome { background-color: #027e8d; background-image: url("../images/just-josh-aliisa-no-bg.png"); background-size: contain; }
+#welcome { background-color: #027e8d; background-image: url("https://s3.amazonaws.com/rsvp.joshandaliisa.com/images/just-josh-aliisa-no-bg.png"); background-size: contain; }
 
-#info { background-image: url("../images/Curtains-with-flowers.png"); background-repeat: no-repeat; background-position: top center; background-size: cover; height: 100vh; }
+#info { background-image: url("https://s3.amazonaws.com/rsvp.joshandaliisa.com/images/Curtains-with-flowers.png"); background-repeat: no-repeat; background-position: top center; background-size: cover; height: 100vh; }
 
 #header { height: 200px; }
 #header::after { margin: 0px auto; }
