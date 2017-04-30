@@ -8,7 +8,7 @@ var db = new AWS.DynamoDB({
     apiVersion: '2012-08-10',
     region: 'us-west-2',
     params: {
-        TableName: 'jaliisha-rsvp'
+        TableName: 'rsvp'
     }
 });
 
@@ -16,7 +16,7 @@ var doc = new AWS.DynamoDB.DocumentClient({
     apiVersion: '2012-08-10',
     region: 'us-west-2',
     params: {
-        TableName: 'jaliisha-rsvp'
+        TableName: 'rsvp'
     }
 });
 
@@ -42,13 +42,16 @@ function parseFamily(itemFamily) {
 
 function getFamily(familyName, callback) {
     doc.scan({
-        ProjectionExpression: "#l, #f, #fam, #rsvp",
+        ProjectionExpression: "#l, #f, #d, #fam, #rsvp, #diet, #note",
         FilterExpression: "#fam = :f",
         ExpressionAttributeNames: {
             "#l": "last",
             "#f": "first",
-            "#fam": "family",
+            "#d": "display",
+            "#fam": "fam",
             "#rsvp": "rsvp",
+            "#diet": "diet",
+            "#note": "note"
         },
         ExpressionAttributeValues: {
             ":f": familyName
@@ -106,13 +109,8 @@ router.get('/invite', function (req, res, next) {
                 
                 // title case
                 familyItems.forEach(function (el, i) {
-                    var firstName = el.first.split(' ');
-                    firstName.forEach(function (namePart, i, arr) { arr[i] = namePart.substr(0, 1).toUpperCase() + namePart.substr(1); });
-                    el.first = firstName.join(' ');
-                    
-                    var lastName = el.last.split(' ');
-                    lastName.forEach(function (namePart, i, arr) { arr[i] = namePart.substr(0, 1).toUpperCase() + namePart.substr(1); });
-                    el.last = lastName.join(' ');
+                    var displayName = el.display.split(',');
+                    el.display = displayName[1].trim() + ' ' + displayName[0].trim();
                 });
                 
                 // build a simpler guest object
@@ -132,10 +130,17 @@ router.get('/invite', function (req, res, next) {
                 });
             }
             
-            if (data.Item.family && data.Item.family.S) {
-                getFamily(data.Item.family.S, getFamilyCallback);
+            if (data.Item.fam && data.Item.fam.S) {
+                getFamily(data.Item.fam.S, getFamilyCallback);
             } else {
-                getFamilyCallback('', []);
+                getFamilyCallback('', [{
+                    first: data.Item.first.S,
+                    last: data.Item.last.S,
+                    display: data.Item.display.S,
+                    rsvp: data.Item.rsvp.BOOL,
+                    diet: data.Item.diet ? data.Item.diet.S : '',
+                    note: data.Item.note ? data.Item.note.S : ''
+                }]);
             }
         } else {
             console.log(`RSVP WARNING [find name] ${req.query.last}, ${req.query.first} - not found`);
