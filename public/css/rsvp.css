@@ -1,27 +1,42 @@
-#welcome { background-color: #027e8d; background-image: url("https://s3.amazonaws.com/rsvp.joshandaliisa.com/images/just-josh-aliisa-no-bg.png"); background-size: contain; }
+body { min-height: 100vh; background-image: url("../images/flowers-left.png"), url("../images/flowers-right.png"); background-repeat: no-repeat, no-repeat; background-position: left top, right top; background-size: 33%, 28%; }
+@media (min-width: 768px) { body { background-image: url("../images/AJ183-md.jpg"); background-repeat: no-repeat; background-position: center; background-size: 150%; } }
+@media (min-width: 992px) { body { background-image: url("../images/AJ183-lg.jpg"); } }
+@media (min-width: 1200px) { body { background-image: url("../images/AJ183-lg.jpg"); } }
 
-#info { background-image: url("https://s3.amazonaws.com/rsvp.joshandaliisa.com/images/Curtains-with-flowers.png"); background-repeat: no-repeat; background-position: top center; background-size: cover; height: 100vh; }
+.info-section::after { margin-top: 0px; }
 
-#header { height: 200px; }
+@media (min-width: 768px) { #info { background-color: white; margin-top: 60px; margin-bottom: 60px; border-radius: 16px; padding-top: 30px; padding-bottom: 30px; } }
+
+#header { height: 160px; }
+@media (min-width: 768px) { #header { height: 120px; padding-top: 0px; } }
 #header::after { margin: 0px auto; }
 #header #alerts { min-height: 80px; }
-#header #alerts .alert { display: none; margin-top: 40px; }
+#header #alerts .alert { display: none; }
 #header #alerts .alert.alert-warning { background-color: #f8d1c4; border-color: #f79674; color: #d25a3a; }
 #header #alerts .alert.alert-info { background-color: #e5b5d4; border-color: #e38ea7; color: #ba3166; }
-#header #alerts .alert.alert-success, #header #alerts .alert.alert-warning { background-color: #67cade; border-color: #027e8d; color: #023e5a; }
+#header #alerts .alert.alert-success { background-color: #67cade; border-color: #027e8d; color: #023e5a; }
+#header #alerts .alert.alert-success a { color: white; }
 
 #rsvp-form { padding-top: 10px; }
+#rsvp-form #find-name .form-group { margin-bottom: 15px; }
+#rsvp-form #find-name .form-group label { text-align: right; }
+#rsvp-form #find-name .form-group input { padding: 1px; max-width: 200px; }
 #rsvp-form #btn-container { margin-top: 20px; }
 #rsvp-form #btn-container button { float: right; clear: right; }
 
+#edit-rsvp #rsvp-list { margin-bottom: 20px; }
+#edit-rsvp #rsvp-list select { float: right; max-width: 300px; }
+#edit-rsvp #rsvp-list input[type="radio"] { margin-right: 5px; }
+#edit-rsvp textarea { padding: 2px; margin-top: 15px; margin-bottom: 0px; }
+
 .btn-warning { background-color: #f79674; border-color: #d25a3a; }
-.btn-warning:hover { background-color: #d25a3a; }
+.btn-warning:hover, .btn-warning:focus { background-color: #d25a3a; }
 
 .btn-info { background-color: #e38ea7; border-color: #ba3166; }
-.btn-info:hover { background-color: #ba3166; }
+.btn-info:hover, .btn-info:focus { background-color: #ba3166; }
 
 .btn-success { background-color: #027e8d; border-color: #023e5a; }
-.btn-success:hover { background-color: #023e5a; }
+.btn-success:hover, .btn-success:focus { background-color: #023e5a; }
 
 /* Admin page */
 .guest { height: 40px; padding: 5px; line-height: 40px; background-color: white; }

@@ -19,24 +19,53 @@ $yellow-dark: rgb(0, 149, 77);
 $yellow: rgb(243, 209, 45);
 $yellow-lite: rgb(248, 244, 176);
 
+body {
+    min-height: 100vh;
+    background-image: url('../images/flowers-left.png'), url('../images/flowers-right.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left top, right top;
+    background-size: 33%, 28%;
+    
+    @media (min-width: 768px) {
+        background-image: url('../images/AJ183-md.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 150%;
+    } 
+    
+    @media (min-width: 992px) {
+        background-image: url('../images/AJ183-lg.jpg');    
+    }
+    
+    @media (min-width: 1200px) {
+        background-image: url('../images/AJ183-lg.jpg');
+    }
+}
 
-#welcome {
-    background-color: $teal-bg;
-    background-image: url('https://s3.amazonaws.com/rsvp.joshandaliisa.com/images/just-josh-aliisa-no-bg.png');
-    background-size: contain;
+.info-section {
+    &::after {
+        margin-top: 0px;
+    }
 }
 
 #info {
-    background-image: url('https://s3.amazonaws.com/rsvp.joshandaliisa.com/images/Curtains-with-flowers.png');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: cover;
-    height: 100vh;
-//    padding-top: 50px;
+    @media (min-width: 768px) {
+        background-color: white;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        border-radius: 16px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
 }
 
 #header {
-    height: 200px;
+    height: 160px;
+    
+    @media (min-width: 768px) {
+        height: 120px;
+        padding-top: 0px;
+    }
     
     &::after {
         margin: 0px auto;
@@ -47,7 +76,6 @@ $yellow-lite: rgb(248, 244, 176);
 
         .alert {
             display: none;
-            margin-top: 40px;
 
             // an alert that requires action
             &.alert-warning {
@@ -62,10 +90,13 @@ $yellow-lite: rgb(248, 244, 176);
                 color: $pink-dark;
             }
 
-            &.alert-success, &.alert-warning {
+            &.alert-success {
                 background-color: $teal-bg-lite;
                 border-color: $teal-bg;
                 color: $teal-bg-dark;
+                a {
+                    color: white;
+                }
             }
         }
     }
@@ -73,6 +104,21 @@ $yellow-lite: rgb(248, 244, 176);
 
 #rsvp-form {
     padding-top: 10px;
+    
+    #find-name {
+        .form-group {
+            margin-bottom: 15px;
+            
+            label {
+                text-align: right;
+            }
+            
+            input {
+                padding: 1px;
+                max-width: 200px;
+            }
+        }
+    }
     
     #btn-container {
         margin-top: 20px;
@@ -84,13 +130,32 @@ $yellow-lite: rgb(248, 244, 176);
     }
 }
 
-
+#edit-rsvp {
+    #rsvp-list {
+        margin-bottom: 20px;
+        
+        select {
+            float: right;
+            max-width: 300px;
+        }
+        
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+    }
+    
+    textarea {
+        padding: 2px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
+}
 
 .btn-warning {
     background-color: $rorange;
     border-color: $rorange-dark;
     
-    &:hover {
+    &:hover, &:focus {
         background-color: $rorange-dark;
     }
 }
@@ -99,7 +164,7 @@ $yellow-lite: rgb(248, 244, 176);
     background-color: $pink;
     border-color: $pink-dark;
     
-    &:hover {
+    &:hover, &:focus {
         background-color: $pink-dark;
     }
 }
@@ -108,7 +173,7 @@ $yellow-lite: rgb(248, 244, 176);
     background-color: $teal-bg;
     border-color: $teal-bg-dark;
     
-    &:hover {
+    &:hover, &:focus {
         background-color: $teal-bg-dark;
     }
 }
