@@ -76,8 +76,8 @@ router.get('/invite', function (req, res, next) {
         guest: null
     };
     
-    var findFirst = req.query.first.trim().toLowerCase(),
-        findLast = req.query.last.trim().toLowerCase();
+    var findFirst = req.query.first,
+        findLast = req.query.last;
     
     db.getItem({
         Key: {
@@ -208,8 +208,8 @@ router.post('/submit', function (req, res, next) {
 
         db.updateItem({
             Key: {
-                first: { S: el.first.trim().toLowerCase() },
-                last: { S: el.last.trim().toLowerCase() }
+                first: { S: el.first },
+                last: { S: el.last }
             },
             UpdateExpression: updateExpression,
             ExpressionAttributeValues: expressionAttr,

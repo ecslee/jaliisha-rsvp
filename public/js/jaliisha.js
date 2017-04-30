@@ -1,13 +1,6 @@
 var rsvpChoice;
 function showRsvpOptions(guests, rsvpList) {
     $('#edit-rsvp #rsvp-list').append(rsvpList);
-    guests.forEach(function (el, i) {
-        if (el.rsvp === true) {
-            $('#rsvp-option-' + el.first + '[value="yes"]').click();
-        } else if (el.rsvp === false) {
-            $('#rsvp-option-' + el.first + '[value="no"]').click();
-        }
-    });
     
     if (guests.length > 1) {
         $('#alerts #guest-new-party').show();
@@ -16,7 +9,18 @@ function showRsvpOptions(guests, rsvpList) {
     }
     
     $('#edit-rsvp input[type="radio"]').click(checkForYes);
+    $('#edit-rsvp select').change(checkForYes);
     checkForYes();
+    
+    for (var g = 0; g < guests.length; g++) {
+        if (guests[g].diet) {
+            $('#diet').val(guests[g].diet);
+        }
+        
+        if (guests[g].note) {
+            $('#note').val(guests[g].note);
+        }
+    }
     
     $('#submit-btn').show();
     $('#edit-rsvp').show();
@@ -27,6 +31,14 @@ function checkForYes () {
     var radios = $('#edit-rsvp input[type="radio"][value="yes"]');
     for (var r = 0; r < radios.length; r++) {
         if (radios[r].checked) {
+            anyYes = true;
+            break;
+        }
+    }
+    
+    var selects = $('#edit-rsvp select');
+    for (var s = 0; s < selects.length; s++) {
+        if (selects[s].value === 'yes') {
             anyYes = true;
             break;
         }
@@ -42,8 +54,8 @@ $('#find-name').keypress(function (evt) {
 });
 
 $('#find-name-btn').click(function () {
-    var first = $('#first').val(),
-        last = $('#last').val();
+    var first = $('#first').val().trim().toUpperCase(),
+        last = $('#last').val().trim().toUpperCase();
     
     $('#alerts .alert:visible').hide();
     var that = this;
@@ -98,9 +110,9 @@ $('#submit-btn').click(function () {
     
     var rsvps = [];
     $('.rsvp-guest').each(function (i, el) {
-        var first = $(this).data('first'),
-            last = $(this).data('last'),
-            rsvp = $(this).find('input:radio:checked').val();
+        var first = $(this).data('first').trim().toUpperCase(),
+            last = $(this).data('last').trim().toUpperCase(),
+            rsvp = $(this).find('[name="rsvp-option-' + $(el).data('first') + '"]').val();
         rsvps.push({
             first: first,
             last: last,
@@ -123,6 +135,7 @@ $('#submit-btn').click(function () {
                 $('#find-name').hide();
                 $('#edit-rsvp').hide();
                 $('#btn-container').hide();
+                $('#rsvp-form').hide();
                 if (data.rsvp) {
                     $('#alerts #success-yes').show();
                 } else {
