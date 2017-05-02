@@ -17,6 +17,10 @@ function showRsvpOptions(guests, rsvpList) {
             $('#diet').val(guests[g].diet);
         }
         
+        if (guests[g].song) {
+            $('#song').val(guests[g].song);
+        }
+        
         if (guests[g].note) {
             $('#note').val(guests[g].note);
         }
@@ -121,11 +125,13 @@ $('#submit-btn').click(function () {
     });
     
     var diet = $('#edit-rsvp #diet').val(),
+        song = $('#edit-rsvp #song').val(),
         note = $('#edit-rsvp #note').val();
     
     $.post('/submit', {
             rsvps: rsvps,
             diet: diet,
+            song: song,
             note: note
         },
         function (data, success, jqxhr) {

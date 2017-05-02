@@ -42,7 +42,7 @@ function parseFamily(itemFamily) {
 
 function getFamily(familyName, callback) {
     doc.scan({
-        ProjectionExpression: "#l, #f, #d, #fam, #rsvp, #diet, #note",
+        ProjectionExpression: "#l, #f, #d, #fam, #rsvp, #diet, #song, #note",
         FilterExpression: "#fam = :f",
         ExpressionAttributeNames: {
             "#l": "last",
@@ -51,6 +51,7 @@ function getFamily(familyName, callback) {
             "#fam": "fam",
             "#rsvp": "rsvp",
             "#diet": "diet",
+            "#song": "song",
             "#note": "note"
         },
         ExpressionAttributeValues: {
@@ -198,6 +199,12 @@ router.post('/submit', function (req, res, next) {
             console.log(`RSVP CALL    [rsvp done] ${el.last}, ${el.first} - diet: ${req.body.diet}`);
             updateExpression += ", diet = :d";
             expressionAttr[":d"] = { S: req.body.diet };
+        }
+        
+        if (i === 0 && req.body.song) {
+            console.log(`RSVP CALL    [rsvp done] ${el.last}, ${el.first} - song: ${req.body.song}`);
+            updateExpression += ", song = :s";
+            expressionAttr[":s"] = { S: req.body.song };
         }
         
         if (i === 0 && req.body.note) {
