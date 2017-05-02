@@ -138,7 +138,7 @@ router.get('/invite', function (req, res, next) {
                     first: data.Item.first.S,
                     last: data.Item.last.S,
                     display: data.Item.display.S,
-                    rsvp: data.Item.rsvp.BOOL,
+                    rsvp: data.Item.rsvp ? data.Item.rsvp.BOOL : null,
                     diet: data.Item.diet ? data.Item.diet.S : '',
                     note: data.Item.note ? data.Item.note.S : ''
                 }]);

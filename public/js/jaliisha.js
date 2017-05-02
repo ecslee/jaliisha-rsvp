@@ -118,11 +118,24 @@ $('#edit-rsvp-btn').click(function () {
 $('#submit-btn').click(function () {
     $('#alerts .alert:visible').hide();
     
-    var rsvps = [];
+    var rsvps = [],
+        nullRSVP = false;
     $('.rsvp-guest').each(function (i, el) {
         var first = $(this).data('first').trim().toUpperCase(),
-            last = $(this).data('last').trim().toUpperCase(),
+            last = $(this).data('last').trim().toUpperCase();
+        
+        var rsvp;
+        if ($(this).find('select[name="rsvp-option-' + $(el).data('first') + '"]').length > 0) {
             rsvp = $(this).find('[name="rsvp-option-' + $(el).data('first') + '"]').val();
+        } else {
+            rsvp = $(this).find('[name="rsvp-option-' + $(el).data('first') + '"]:checked').val();
+        }
+        
+        if (rsvp !== "yes" && rsvp !== "no") {
+            nullRSVP = true;
+            $('#alerts #rsvp-empty').show();
+        }
+        
         rsvps.push({
             first: first,
             last: last,
@@ -134,26 +147,30 @@ $('#submit-btn').click(function () {
         song = $('#edit-rsvp #song').val(),
         note = $('#edit-rsvp #note').val();
     
-    $.post('/submit', {
-            rsvps: rsvps,
-            diet: diet,
-            song: song,
-            note: note
-        },
-        function (data, success, jqxhr) {
-            if (data.error) {
-                console.log('RSVP ERROR   [rsvp done] ' + rsvps[0].last + ', ' + rsvps[0].first + ' - ' + data.error);
-            } else {
-                $('#find-name').hide();
-                $('#edit-rsvp').hide();
-                $('#btn-container').hide();
-                $('#rsvp-form').hide();
-                if (data.rsvp) {
-                    $('#alerts #success-yes').show();
+    if (!nullRSVP) {
+        $.post('/submit', {
+                rsvps: rsvps,
+                diet: diet,
+                song: song,
+                note: note
+            },
+            function (data, success, jqxhr) {
+                if (data.error) {
+                    console.log('RSVP ERROR   [rsvp done] ' + rsvps[0].last + ', ' + rsvps[0].first + ' - ' + data.error);
                 } else {
-                    $('#alerts #success-no').show();
+                    $('#find-name').hide();
+                    $('#edit-rsvp').hide();
+                    $('#btn-container').hide();
+                    $('#rsvp-form').hide();
+                    if (data.rsvp) {
+                        $('#alerts #success-yes').show();
+                    } else {
+                        $('#alerts #success-no').show();
+                    }
+                    
+                    $('#thanks-image').show();
                 }
             }
-        }
-    );
+        );
+    }
 });
