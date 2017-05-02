@@ -60,9 +60,15 @@ module.exports = function (grunt) {
         });
         
         function ebdeploy(version) {
+            var args = ["deploy", "--label", version, "--staged"];
+            if (grunt.option("message")) {
+                args.push("--message");
+                args.push(grunt.option("message"));
+            }
+            
             grunt.util.spawn({
                 cmd: "eb",
-                args: ["deploy", "--label", "v1.11", "--staged"],
+                args: args,
                 opts: {stdio: "inherit"}
             }, function (err, result, code) {
                 if (err) {
