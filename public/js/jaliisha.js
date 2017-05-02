@@ -174,3 +174,5 @@ $('#submit-btn').click(function () {
         );
     }
 });
+
+console.log('*~ WebSeitz 2017 ~*');
