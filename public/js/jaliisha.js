@@ -48,7 +48,13 @@ function checkForYes () {
         }
     }
 
-    anyYes ? $('#edit-rsvp').find('#diet-label, #diet').show() : $('#edit-rsvp').find('#diet-label, #diet').hide();
+    if (anyYes) {
+        $('#edit-rsvp').find('#diet').removeAttr('disabled');
+        $('#edit-rsvp').find('#diet-wrapper').removeClass('disabled');
+    } else {
+        $('#edit-rsvp').find('#diet').attr('disabled', true);
+        $('#edit-rsvp').find('#diet-wrapper').addClass('disabled');
+    }
 }
 
 $('#find-name').keypress(function (evt) {

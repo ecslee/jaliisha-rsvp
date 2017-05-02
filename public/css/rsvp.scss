@@ -148,6 +148,14 @@ body {
         padding: 2px;
         margin-top: 15px;
         margin-bottom: 0px;
+    .disabled {
+        .input-group-addon {
+            background-color: #ddd;
+        }
+        
+        input {
+            background-color: #ddd;
+        }
     }
 }
 
