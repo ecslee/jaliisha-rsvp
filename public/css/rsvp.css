@@ -14,20 +14,25 @@ body { min-height: 100vh; background-image: url("../images/flowers-left.png"), u
 #header #alerts .alert { display: none; }
 #header #alerts .alert.alert-warning { background-color: #f8d1c4; border-color: #f79674; color: #d25a3a; }
 #header #alerts .alert.alert-info { background-color: #e5b5d4; border-color: #e38ea7; color: #ba3166; }
-#header #alerts .alert.alert-success { background-color: #67cade; border-color: #027e8d; color: #023e5a; }
+#header #alerts .alert.alert-success { background-color: rgba(103, 202, 222, 0.8); border-color: #027e8d; color: #023e5a; }
 #header #alerts .alert.alert-success a { color: white; }
 
+#thanks-image { display: none; }
+#thanks-image img { width: 100%; height: auto; }
+
 #rsvp-form { padding-top: 10px; }
-#rsvp-form #find-name .form-group { margin-bottom: 15px; }
-#rsvp-form #find-name .form-group label { text-align: right; }
-#rsvp-form #find-name .form-group input { padding: 1px; max-width: 200px; }
+#rsvp-form #find-name .input-group { margin-bottom: 15px; }
 #rsvp-form #btn-container { margin-top: 20px; }
 #rsvp-form #btn-container button { float: right; clear: right; }
 
 #edit-rsvp #rsvp-list { margin-bottom: 20px; }
-#edit-rsvp #rsvp-list select { float: right; max-width: 300px; }
+#edit-rsvp #rsvp-list label.control-label { line-height: 34px; margin-bottom: 0px; }
+@media (min-width: 992px) { #edit-rsvp #rsvp-list label.control-label { text-align: right; } }
+#edit-rsvp #rsvp-list select { float: right; }
 #edit-rsvp #rsvp-list input[type="radio"] { margin-right: 5px; }
-#edit-rsvp textarea { padding: 2px; margin-top: 15px; margin-bottom: 0px; }
+#edit-rsvp .input-group { margin-top: 15px; }
+#edit-rsvp .disabled .input-group-addon { background-color: #ddd; }
+#edit-rsvp .disabled input { background-color: #ddd; }
 
 .btn-warning { background-color: #f79674; border-color: #d25a3a; }
 .btn-warning:hover, .btn-warning:focus { background-color: #d25a3a; }
@@ -37,6 +42,13 @@ body { min-height: 100vh; background-image: url("../images/flowers-left.png"), u
 
 .btn-success { background-color: #027e8d; border-color: #023e5a; }
 .btn-success:hover, .btn-success:focus { background-color: #023e5a; }
+
+.form-inline .form-group .input-group .input-group-addon { color: #0a577b; background-color: #f5f5f5; border-color: #0E79AB; font-weight: bold; }
+.form-inline .form-group .input-group .input-group-addon.input-glyphicon { width: 30px; }
+.form-inline .form-group .input-group .input-group-addon.input-glyphicon .glyphicon { font-size: 16px; }
+.form-inline .form-group .input-group input { border-color: #0E79AB; }
+
+p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 10pt; }
 
 /* Admin page */
 .guest { height: 40px; padding: 5px; line-height: 40px; background-color: white; }

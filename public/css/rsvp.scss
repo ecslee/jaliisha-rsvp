@@ -8,7 +8,7 @@ $orange: rgb(242, 116, 66); // #f27442
 // rsvp colors
 $teal-bg-dark: rgb(2, 62, 90);
 $teal-bg: rgb(2, 126, 141);
-$teal-bg-lite: rgb(103, 202, 222);
+$teal-bg-lite: rgba(103, 202, 222, 0.8);
 $rorange-dark: rgb(210, 90, 58);
 $rorange: rgb(247, 150, 116);
 $rorange-lite: rgb(248, 209, 196);
@@ -115,17 +115,8 @@ body {
     padding-top: 10px;
     
     #find-name {
-        .form-group {
+        .input-group {
             margin-bottom: 15px;
-            
-            label {
-                text-align: right;
-            }
-            
-            input {
-                padding: 1px;
-                max-width: 200px;
-            }
         }
     }
     
@@ -143,9 +134,17 @@ body {
     #rsvp-list {
         margin-bottom: 20px;
         
+        label.control-label {
+            line-height: 34px;
+            margin-bottom: 0px;
+            
+            @media (min-width: 992px) {
+                text-align: right;
+            }
+        }
+        
         select {
             float: right;
-            max-width: 300px;
         }
         
         input[type="radio"] {
@@ -153,10 +152,10 @@ body {
         }
     }
     
-    textarea {
-        padding: 2px;
+    .input-group {
         margin-top: 15px;
-        margin-bottom: 0px;
+    }
+    
     .disabled {
         .input-group-addon {
             background-color: #ddd;
@@ -192,6 +191,31 @@ body {
     
     &:hover, &:focus {
         background-color: $teal-bg-dark;
+    }
+}
+
+.form-inline {
+    .form-group {
+        .input-group {
+            .input-group-addon {
+                color: $teal;
+                background-color: #f5f5f5;
+                border-color: $teal-light;
+                font-weight: bold;
+                
+                &.input-glyphicon {
+                    width: 30px;
+                    
+                    .glyphicon {
+                        font-size: 16px;
+                    }
+                }
+            }
+            
+            input {
+                border-color: $teal-light;
+            }
+        }
     }
 }
 

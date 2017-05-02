@@ -5,12 +5,12 @@
         <div id="info" class="col-xs-12 col-sm-6 col-sm-offset-3">
             <div id="header" class="info-section no-separator col-xs-10 col-xs-offset-1 col-sm-12 col-sm-offset-0">
                 <div id="alerts">
-                    <div id="guest-start" class="alert alert-warning" role="alert" style="display: block;">Welcome!  Please enter your name to find your invitation.</div>
+                    <div id="guest-start" class="alert alert-success" role="alert" style="display: block;">Welcome!  Please enter your name to find your invitation.</div>
                     <div id="guest-no" class="alert alert-warning" role="alert">Oops, we couldn't find you on the guest list.  Try typing your name as it's found on your invite.</div>
-                    <div id="guest-new" class="alert alert-warning" role="alert">Welcome!  Please RSVP for Aliisa & Josh's wedding.</div>
-                    <div id="guest-new-party" class="alert alert-warning" role="alert">Welcome!  Please RSVP for you and your party.</div>
-                    <div id="guest-return" class="alert alert-warning" role="alert">Welcome back!  Do you need to change your RSVP for Aliisa & Josh's wedding?</div>
-                    <div id="rsvp-empty" class="alert alert-warning" role="alert">Please select an RSVP option.</div>
+                    <div id="guest-new" class="alert alert-success" role="alert">Welcome!  Please RSVP for Aliisa & Josh's wedding.</div>
+                    <div id="guest-new-party" class="alert alert-success" role="alert">Welcome!  Please RSVP for you and your party.</div>
+                    <div id="guest-return" class="alert alert-success" role="alert">Welcome back!  Do you need to change your RSVP for Aliisa & Josh's wedding?</div>
+                    <div id="rsvp-empty" class="alert alert-warning" role="alert">Please select an RSVP option for each guest.</div>
                     <div id="success-yes" class="alert alert-success" role="alert" style="text-align: center;">
                         <p>Thank you!  We're excited to celebrate with you on June 25!</p>
                         <a href="http://www.joshandaliisa.com">JoshandAliisa.com</a>
@@ -28,27 +28,40 @@
             </div>
             <div id="rsvp-form" class="info-section col-xs-12">
                 <div id="find-name" class="form-inline col-xs-12">
-                    <div class="form-group col-xs-12">
-                        <label for="first" class="col-xs-3">First</label>
-                        <input id="first" type="text" name="name" class="col-xs-9">
-                    </div>
-                    <div class="form-group col-xs-12">
-                        <label for="last" class="col-xs-3">Last</label>
-                        <input id="last" type="text" name="name" class="col-xs-9">
+                    <div class="form-group col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                        <div class="input-group col-xs-12">
+                            <span class="input-group-addon">First</span>
+                            <input id="first" class="form-control input-lg" type="text" name="name">
+                        </div>
+                        <div class="input-group col-xs-12">
+                            <span class="input-group-addon">Last</span>
+                            <input id="last" class="form-control input-lg" type="text" name="name">
+                        </div>
                     </div>
                 </div>
                 <div id="edit-rsvp" class="" style="display: none;">
                     <div id="rsvp-list"></div>
                     <div class="form-inline">
-                        <textarea id="diet" class="form-group col-xs-12" placeholder="Any dietary concerns?"></textarea>
-                        <textarea id="song" class="form-group col-xs-12" placeholder="I promise to dance if you play..."></textarea>
-                        <textarea id="note" class="form-group col-xs-12" placeholder="Comment for the bride and groom..."></textarea>
+                        <div class="form-group col-xs-12">
+                            <div id="diet-wrapper" class="input-group col-xs-12">
+                                <span class="input-group-addon input-glyphicon"><i class="glyphicon glyphicon-apple"></i></span>
+                                <input id="diet" type="text" class="form-control" placeholder="Any dietary concerns?">
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <span class="input-group-addon input-glyphicon"><i class="glyphicon glyphicon-music"></i></span>
+                                <input id="song" type="text" class="form-control" placeholder="I promise to dance if you play...">
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <span class="input-group-addon input-glyphicon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                <input id="note" type="text" class="form-control" placeholder="Comment for the bride and groom...">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="btn-container" class="col-xs-10 col-xs-offset-1 pull-right">
-                    <button id="find-name-btn" class="btn btn-success">Find invite</button>
+                    <button id="find-name-btn" class="btn btn-warning">Find invite</button>
                     <button id="edit-rsvp-btn" class="btn btn-warning" style="display: none;">RSVP</button>
-                    <button id="submit-btn" class="btn btn-success" style="display: none;">Submit</button>
+                    <button id="submit-btn" class="btn btn-warning" style="display: none;">Submit</button>
                 </div>
                 <div class="clearfix"></div>
                 <p id="questions">Questions? Issues? Email questions@joshandaliisa.com</p>

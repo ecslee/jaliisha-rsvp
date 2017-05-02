@@ -1,20 +1,22 @@
 <% if (family.length > 1) { %>
     <% for (var n = 0; n < family.length; n++) { %>
-    <p id="rsvp-<%= family[n].first %>" class="rsvp-guest" data-first="<%= family[n].first %>" data-last="<%= family[n].last %>">
-        <span class="col-xs-12 col-md-6"><%= family[n].display %></span>
-        <select name="rsvp-option-<%= family[n].first %>" class="col-xs-12 col-md-6">
-            <option value="none" <% if (typeof family[0].rsvp == 'undefined') { %> selected<% } %>>Please RSVP...</option>
-            <option value="yes" <% if (typeof family[n].rsvp !== 'undefined' && family[n].rsvp === true) { %> selected<% } %>>Can't wait to celebrate!</option>
-            <option value="no" <% if (typeof family[n].rsvp !== 'undefined' && family[n].rsvp === false) { %> selected<% } %>>Will be celebrating from afar</option>
-        </select>
-    </p>
+    <div id="rsvp-<%= family[n].first %>" class="rsvp-guest form-group col-xs-12" data-first="<%= family[n].first %>" data-last="<%= family[n].last %>">
+        <label class="control-label col-xs-12 col-md-4 col-lg-6"><%= family[n].display %></label>
+        <div class="col-xs-12 col-md-8 col-lg-6">
+            <select name="rsvp-option-<%= family[n].first %>" class="form-control">
+                <option value="none" <% if (typeof family[0].rsvp == 'undefined') { %> selected<% } %>>Please RSVP...</option>
+                <option value="yes" <% if (typeof family[n].rsvp !== 'undefined' && family[n].rsvp === true) { %> selected<% } %>>Can't wait to celebrate!</option>
+                <option value="no" <% if (typeof family[n].rsvp !== 'undefined' && family[n].rsvp === false) { %> selected<% } %>>Will be celebrating from afar</option>
+            </select>
+        </div>
+    </div>
     <% } %>
 <% } else { %>
-    <p id="rsvp-<%= family[0].first %>">
-        <span><%= family[0].display %></span>
-    </p>
-    <p class="rsvp-guest" data-first="<%= family[0].first %>" data-last="<%= family[0].last %>">
-        <label class="col-xs-12 col-md-11 col-md-offset-1 col-lg-9 col-lg-offset-2"><input type="radio" value="yes" name="rsvp-option-<%= family[0].first %>" <% if (typeof family[0].rsvp !== 'undefined' && family[0].rsvp === true) { %> checked<% } %>>Can't wait to celebrate!</label>
-        <label class="col-xs-12 col-md-11 col-md-offset-1 col-lg-9 col-lg-offset-2"><input type="radio" value="no" name="rsvp-option-<%= family[0].first %>" <% if (typeof family[0].rsvp !== 'undefined' && family[0].rsvp === false) { %> checked<% } %>>Will be celebrating from afar.</label>
-    </p>
+    <div id="rsvp-<%= family[0].first %>" class="col-xs-12 col-md-10 col-md-offset-2">
+        <label><%= family[0].display %></label>
+    </div>
+    <div class="rsvp-guest col-xs-12 col-md-9 col-md-offset-3" data-first="<%= family[0].first %>" data-last="<%= family[0].last %>">
+        <label class="col-xs-12"><input type="radio" value="yes" name="rsvp-option-<%= family[0].first %>" <% if (typeof family[0].rsvp !== 'undefined' && family[0].rsvp === true) { %> checked<% } %>>Can't wait to celebrate!</label>
+        <label class="col-xs-12"><input type="radio" value="no" name="rsvp-option-<%= family[0].first %>" <% if (typeof family[0].rsvp !== 'undefined' && family[0].rsvp === false) { %> checked<% } %>>Will be celebrating from afar</label>
+    </div>
 <% } %>
