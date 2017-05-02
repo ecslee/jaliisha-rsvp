@@ -67,32 +67,35 @@ $('#find-name-btn').click(function () {
     var first = $('#first').val().trim().toUpperCase(),
         last = $('#last').val().trim().toUpperCase();
     
-    $('#alerts .alert:visible').hide();
-    var that = this;
-    $.ajax({
-        url: '/invite',
-        data: {
-            first: first,
-            last: last
-        },
-        success: function (data, success, jqxhr) {
-            if (data.error) {
-                console.log('RSVP ERROR   [find name] ' + last + ', ' + first + ' - ' + data.error);
-            } else if (data.guests !== null) {
-                // found the guest
-                $(that).hide();
-                $('#find-name input').attr('disabled', true);
-                $('#find-name').hide();
-                showRsvpOptions(data.guests, data.rsvpList);
-            } else {
-                $('#alerts #guest-no').show();
-                $('#find-name input').val('');
+    if (first !== '' && last !== '') {
+        $('#alerts .alert:visible').hide();
+        var that = this;
+        
+        $.ajax({
+            url: '/invite',
+            data: {
+                first: first,
+                last: last
+            },
+            success: function (data, success, jqxhr) {
+                if (data.error) {
+                    console.log('RSVP ERROR   [find name] ' + last + ', ' + first + ' - ' + data.error);
+                } else if (data.guests !== null) {
+                    // found the guest
+                    $(that).hide();
+                    $('#find-name input').attr('disabled', true);
+                    $('#find-name').hide();
+                    showRsvpOptions(data.guests, data.rsvpList);
+                } else {
+                    $('#alerts #guest-no').show();
+                    $('#find-name input').val('');
+                }
+            },
+            error: function (jqxhr, status, errorMsg) {
+                console.log('RSVP ERROR   [find name] ' + last + ', ' + first + ' - ' + status + ': ' + errorMsg);
             }
-        },
-        error: function (jqxhr, status, errorMsg) {
-            console.log('RSVP ERROR   [find name] ' + last + ', ' + first + ' - ' + status + ': ' + errorMsg);
-        }
-    });
+        });
+    }
 });
 
 $('#edit-rsvp-btn').click(function () {
