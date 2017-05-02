@@ -102,6 +102,15 @@ body {
     }
 }
 
+#thanks-image {
+    display: none;
+    
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+
 #rsvp-form {
     padding-top: 10px;
     
@@ -184,6 +193,13 @@ body {
     &:hover, &:focus {
         background-color: $teal-bg-dark;
     }
+}
+
+p#questions {
+    margin-top: 20px;
+    color: $teal-light;
+    text-align: center;
+    font-size: 10pt;
 }
 
 /* Admin page */
