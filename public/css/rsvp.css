@@ -52,11 +52,14 @@ p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 1
 
 /* Admin page */
 .rsvp-table { display: inline-block; width: 100%; border: 1px solid #0E79AB; border-radius: 10px; }
-.rsvp-table .rsvp-column { width: 33%; height: 500px; overflow: scroll; float: left; border: 0px solid #0E79AB; border-left-width: 1px; }
+.rsvp-table .rsvp-column { width: 33%; height: 500px; float: left; border: 0px solid #0E79AB; border-left-width: 1px; }
 .rsvp-table .rsvp-column:first-of-type { width: 34%; border-left-width: 0px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+.rsvp-table .rsvp-column:first-of-type .rsvp-header { border-top-left-radius: 10px; }
 .rsvp-table .rsvp-column:last-of-type { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+.rsvp-table .rsvp-column:last-of-type .rsvp-header { border-top-right-radius: 10px; }
 .rsvp-table .rsvp-column .rsvp-header { height: 40px; padding: 0px 10px; line-height: 40px; font-size: 14pt; }
 .rsvp-table .rsvp-column .rsvp-header .badge { margin-top: 11px; }
+.rsvp-table .rsvp-column .rsvp-body { overflow: scroll; height: 460px; }
 .rsvp-table .rsvp-column .rsvp-guest { height: 30px; padding: 0px 5px; line-height: 30px; background-color: white; }
 .rsvp-table .rsvp-column .rsvp-guest:nth-child(odd) { background-color: rgba(10, 87, 123, 0.1); }
 .rsvp-table .rsvp-column .rsvp-guest:hover { background-color: rgba(242, 116, 66, 0.8); color: white; }

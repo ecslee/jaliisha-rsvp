@@ -12,7 +12,6 @@ $orange-trans: rgba(242, 116, 66, 0.8);
     .rsvp-column {
         width: 33%;
         height: 500px;
-        overflow: scroll;
         float: left;
         border: 0px solid $teal-light;
         border-left-width: 1px;
@@ -22,11 +21,19 @@ $orange-trans: rgba(242, 116, 66, 0.8);
             border-left-width: 0px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
+            
+            .rsvp-header {
+                border-top-left-radius: 10px;
+            }
         }
         
         &:last-of-type {
             border-top-right-radius: 10px;
             border-bottom-right-radius: 10px;
+            
+            .rsvp-header {
+                border-top-right-radius: 10px;
+            }
         }
         
         .rsvp-header {
@@ -38,6 +45,11 @@ $orange-trans: rgba(242, 116, 66, 0.8);
             .badge {
                 margin-top: 11px;
             }
+        }
+        
+        .rsvp-body {
+            overflow: scroll;
+            height: 460px;
         }
         
         .rsvp-guest {
