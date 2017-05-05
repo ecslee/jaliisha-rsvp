@@ -3,9 +3,14 @@
 $teal-most-trans: rgba(10, 87, 123, 0.1);
 $orange-trans: rgba(242, 116, 66, 0.8);
 
+#info {
+    padding: 30px;
+}
+
 .rsvp-table {
     display: inline-block;
     width: 100%;
+    background-color: white;
     border: 1px solid $teal-light;
     border-radius: 10px;
     
@@ -83,6 +88,30 @@ $orange-trans: rgba(242, 116, 66, 0.8);
             
             .popover {
                 color: $teal !important;
+            }
+        }
+    }
+    
+    @media(max-width: 991px) {
+        border-width: 0px 1px;
+        
+        .rsvp-column {
+            width: 100%;
+            height: 300px;
+            border-left-width: 0px;
+            
+            &:first-of-type {
+                width: 100%;
+            }
+            
+            .rsvp-header {
+                border-top: 1px solid $teal-light;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+            
+            .rsvp-body {
+                height: 260px;
             }
         }
     }
