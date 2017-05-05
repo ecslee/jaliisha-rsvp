@@ -23,7 +23,6 @@
                         <span class="rsvp-guest-name"><%= no[i].first %> <%= no[i].last %></span>
                         <span class="glyphicon glyphicon-pencil<% if (!no[i].note) { %> empty<% } %>"></span>
                         <span class="glyphicon glyphicon-music<% if (!no[i].song) { %> empty<% } %>"></span>
-                        <span class="glyphicon glyphicon-apple<% if (!no[i].diet) { %> empty<% } %>"></span>
                     </div>
                 <% } %>
                 </div>
@@ -32,9 +31,6 @@
                 <% for (var i = 0; i < na.length; i++) { %>
                     <div class="rsvp-guest" data-last="<%= na[i].last %>" data-first="<%= na[i].first %>">
                         <span class="rsvp-guest-name"><%= na[i].first %> <%= na[i].last %></span>
-                        <span class="glyphicon glyphicon-pencil<% if (!na[i].note) { %> empty<% } %>"></span>
-                        <span class="glyphicon glyphicon-music<% if (!na[i].song) { %> empty<% } %>"></span>
-                        <span class="glyphicon glyphicon-apple<% if (!na[i].diet) { %> empty<% } %>"></span>
                     </div>
                 <% } %>
                 </div>
