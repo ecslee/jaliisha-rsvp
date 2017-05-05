@@ -60,9 +60,17 @@ $orange-trans: rgba(242, 116, 66, 0.8);
                 margin-top: 7px;
                 margin-left: 5px;
                 
+                &:hover {
+                    color: $teal-light;
+                }
+                
                 &.empty {
                     visibility: hidden;
                 }
+            }
+            
+            .popover {
+                color: $teal !important;
             }
         }
     }

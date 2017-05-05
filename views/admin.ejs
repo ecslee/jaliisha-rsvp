@@ -10,9 +10,30 @@
                 <% for (var i = 0; i < yes.length; i++) { %>
                     <div class="rsvp-guest" data-last="<%= yes[i].last %>" data-first="<%= yes[i].first %>">
                         <span class="rsvp-guest-name"><%= yes[i].first %> <%= yes[i].last %></span>
-                        <span class="glyphicon glyphicon-pencil<% if (!yes[i].note) { %> empty<% } %>"></span>
-                        <span class="glyphicon glyphicon-music<% if (!yes[i].song) { %> empty<% } %>"></span>
-                        <span class="glyphicon glyphicon-apple<% if (!yes[i].diet) { %> empty<% } %>"></span>
+                        <span <% if (yes[i].note) { %>
+                              tabindex="0" role="button"
+                              class="glyphicon glyphicon-pencil"
+                              data-toggle="popover"
+                              data-content="<b>Note:</b> <%= yes[i].note %>"
+                          <% } else { %>
+                              class="glyphicon glyphicon-pencil empty"
+                          <% } %>></span>
+                        <span <% if (yes[i].song) { %>
+                              tabindex="0" role="button"
+                              class="glyphicon glyphicon-music"
+                              data-toggle="popover"
+                              data-content="<b>Song request:</b> <%= yes[i].song %>"
+                          <% } else { %>
+                              class="glyphicon glyphicon-music empty"
+                          <% } %>></span>
+                        <span <% if (yes[i].diet) { %>
+                              tabindex="0" role="button"
+                              class="glyphicon glyphicon-apple"
+                              data-toggle="popover"
+                              data-content="<b>Dietary concern:</b> <%= yes[i].diet %>"
+                          <% } else { %>
+                              class="glyphicon glyphicon-apple empty"
+                          <% } %>></span>
                     </div>
                 <% } %>
                 </div>
@@ -21,8 +42,22 @@
                 <% for (var i = 0; i < no.length; i++) { %>
                     <div class="rsvp-guest" data-last="<%= no[i].last %>" data-first="<%= no[i].first %>">
                         <span class="rsvp-guest-name"><%= no[i].first %> <%= no[i].last %></span>
-                        <span class="glyphicon glyphicon-pencil<% if (!no[i].note) { %> empty<% } %>"></span>
-                        <span class="glyphicon glyphicon-music<% if (!no[i].song) { %> empty<% } %>"></span>
+                        <span <% if (no[i].note) { %>
+                              tabindex="0" role="button"
+                              class="glyphicon glyphicon-pencil"
+                              data-toggle="popover"
+                              data-content="<b>Note:</b> <%= no[i].note %>"
+                          <% } else { %>
+                              class="glyphicon glyphicon-pencil empty"
+                          <% } %>></span>
+                        <span <% if (no[i].song) { %>
+                              tabindex="0" role="button"
+                              class="glyphicon glyphicon-music"
+                              data-toggle="popover"
+                              data-content="<b>Song request:</b> <%= no[i].song %>"
+                          <% } else { %>
+                              class="glyphicon glyphicon-music empty"
+                          <% } %>></span>
                     </div>
                 <% } %>
                 </div>
