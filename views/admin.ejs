@@ -2,48 +2,36 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="contents col-xs-10 col-xs-offset-1">
-            <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                <h1>Admin</h1>
-                <div class="col-xs-4">
-                    <div id="rsvp-yes" class="alert alert-success" role="alert">Yes, these people are coming!</div>
-                    <div id="rsvp-yes-table"></div>
+        <div id="info" class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <h1>Admin</h1>
+            <div class="col-xs-4">
+                <div id="rsvp-yes" class="rsvp-header alert alert-success" role="alert">Can't wait to celebrate! <span class="badge pull-right"><%= yes.length  %></span></div>
+                <div id="rsvp-yes-table" class="rsvp-column">
+                <% for (var i = 0; i < yes.length; i++) { %>
+                    <div class="guest"><%= yes[i].first %> <%= yes[i].last %></div>
+                <% } %>
                 </div>
-                <div class="col-xs-4">
-                    <div id="rsvp-no" class="alert alert-danger" role="alert">No, these people are not...</div>
-                    <div id="rsvp-no-table"></div>
+            </div>
+            <div class="col-xs-4">
+                <div id="rsvp-no" class="rsvp-header alert alert-danger" role="alert">Will celebrate from afar <span class="badge pull-right"><%= no.length  %></span></div>
+                <div id="rsvp-no-table" class="rsvp-column">
+                <% for (var i = 0; i < no.length; i++) { %>
+                    <div class="guest"><%= no[i].first %> <%= no[i].last %></div>
+                <% } %>
                 </div>
-                <div class="col-xs-4">
-                    <div id="rsvp-null" class="alert alert-warning" role="alert">Not responded.</div>
-                    <div id="rsvp-null-table"></div>
+            </div>
+            <div class="col-xs-4">
+                <div id="rsvp-na" class="rsvp-header alert alert-warning" role="alert">Not responded <span class="badge pull-right"><%= na.length  %></span></div>
+                <div id="rsvp-na-table" class="rsvp-column">
+                <% for (var i = 0; i < na.length; i++) { %>
+                    <div class="guest"><%= na[i].first %> <%= na[i].last %></div>
+                <% } %>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $.ajax({
-        url: '/rsvp-all',
-        success: function (data, success, jqxhr) {
-            if (data.error) {
-                console.log('ERROR', data.error);
-            } else {
-                data.yes.forEach(function (guest, i) {
-                    $('#rsvp-yes-table').append('<div class="guest">' + guest.first + ' ' + guest.last + '</div>');
-                });
-                
-                data.no.forEach(function (guest, i) {
-                    $('#rsvp-no-table').append('<div class="guest">' + guest.first + ' ' + guest.last + '</div>');
-                });
-                
-                data.na.forEach(function (guest, i) {
-                    $('#rsvp-null-table').append('<div class="guest">' + guest.first + ' ' + guest.last + '</div>');
-                });
-            }
-        }
-    });
-    
-</script>
+<script type="text/javascript" src="js/admin.js"></script>
 
 <% include footer %>

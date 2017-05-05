@@ -54,3 +54,6 @@ p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 1
 .guest { height: 40px; padding: 5px; line-height: 40px; background-color: white; }
 .guest:nth-child(even) { background-color: rgba(10, 87, 123, 0.8); }
 .guest:hover { background-color: teal; color: white; }
+
+/* Admin page */
+.rsvp-column { max-height: 500px; overflow: scroll; }
