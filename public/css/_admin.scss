@@ -1,6 +1,96 @@
 /* Admin page */
 
-.rsvp-column {
-    max-height: 500px;
-    overflow: scroll;
+$teal-most-trans: rgba(10, 87, 123, 0.1);
+$orange-trans: rgba(242, 116, 66, 0.8);
+
+.rsvp-table {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid $teal-light;
+    border-radius: 10px;
+    
+    .rsvp-column {
+        width: 33%;
+        height: 500px;
+        overflow: scroll;
+        float: left;
+        border: 0px solid $teal-light;
+        border-left-width: 1px;
+        
+        &:first-of-type {
+            width: 34%;
+            border-left-width: 0px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        &:last-of-type {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        
+        .rsvp-header {
+            height: 40px;
+            padding: 0px 10px;
+            line-height: 40px;
+            font-size: 14pt;
+            
+            .badge {
+                margin-top: 11px;
+            }
+        }
+        
+        .rsvp-guest {
+            height: 30px;
+            padding: 0px 5px;
+            line-height: 30px;
+            background-color: white;
+
+            &:nth-child(odd) {
+                background-color: $teal-most-trans;
+            }
+
+            &:hover {
+                background-color: $orange-trans;
+                color: white;
+            }
+            
+            .glyphicon {
+                float: right;
+                margin-top: 7px;
+                margin-left: 5px;
+                
+                &.empty {
+                    visibility: hidden;
+                }
+            }
+        }
+    }
+}
+
+.alert-success {
+    .badge {
+        border-color: #dff0d8;
+        color: #d6e9c6;
+        color: white;
+        background-color: #3c763d;
+    }
+}
+
+.alert-danger {
+    .badge {
+        border-color: #f2dede;
+        color: #ebccd1;
+        color: white;
+        background-color: #a94442;
+    }
+}
+
+.alert-warning {
+    .badge {
+        border-color: #fcf8e3;
+        color: #faebcc;
+        color: white;
+        backgroundcolor: #8a6d3b;
+    }
 }

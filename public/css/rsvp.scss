@@ -226,22 +226,4 @@ p#questions {
     font-size: 10pt;
 }
 
-/* Admin page */
-
-.guest {
-    height: 40px;
-    padding: 5px;
-    line-height: 40px;
-    background-color: white;
-    
-    &:nth-child(even) {
-        background-color: $teal-trans;
-    }
-    
-    &:hover {
-        background-color: teal;
-        color: white;
-    }
-}
-
 @import "admin";

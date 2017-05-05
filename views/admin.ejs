@@ -4,27 +4,38 @@
     <div class="row">
         <div id="info" class="col-xs-12 col-sm-8 col-sm-offset-2">
             <h1>Admin</h1>
-            <div class="col-xs-4">
-                <div id="rsvp-yes" class="rsvp-header alert alert-success" role="alert">Can't wait to celebrate! <span class="badge pull-right"><%= yes.length  %></span></div>
+            <div class="rsvp-table">
                 <div id="rsvp-yes-table" class="rsvp-column">
+                    <div id="rsvp-yes" class="rsvp-header alert-success">Can't wait to celebrate! <span class="badge pull-right"><%= yes.length  %></span></div>
                 <% for (var i = 0; i < yes.length; i++) { %>
-                    <div class="guest"><%= yes[i].first %> <%= yes[i].last %></div>
+                    <div class="rsvp-guest" data-last="<%= yes[i].last %>" data-first="<%= yes[i].first %>">
+                        <span class="rsvp-guest-name"><%= yes[i].first %> <%= yes[i].last %></span>
+                        <span class="glyphicon glyphicon-pencil<% if (!yes[i].note) { %> empty<% } %>"></span>
+                        <span class="glyphicon glyphicon-music<% if (!yes[i].song) { %> empty<% } %>"></span>
+                        <span class="glyphicon glyphicon-apple<% if (!yes[i].diet) { %> empty<% } %>"></span>
+                    </div>
                 <% } %>
                 </div>
-            </div>
-            <div class="col-xs-4">
-                <div id="rsvp-no" class="rsvp-header alert alert-danger" role="alert">Will celebrate from afar <span class="badge pull-right"><%= no.length  %></span></div>
                 <div id="rsvp-no-table" class="rsvp-column">
+                    <div id="rsvp-no" class="rsvp-header alert-danger">Will celebrate from afar <span class="badge pull-right"><%= no.length  %></span></div>
                 <% for (var i = 0; i < no.length; i++) { %>
-                    <div class="guest"><%= no[i].first %> <%= no[i].last %></div>
+                    <div class="rsvp-guest" data-last="<%= no[i].last %>" data-first="<%= no[i].first %>">
+                        <span class="rsvp-guest-name"><%= no[i].first %> <%= no[i].last %></span>
+                        <span class="glyphicon glyphicon-pencil<% if (!no[i].note) { %> empty<% } %>"></span>
+                        <span class="glyphicon glyphicon-music<% if (!no[i].song) { %> empty<% } %>"></span>
+                        <span class="glyphicon glyphicon-apple<% if (!no[i].diet) { %> empty<% } %>"></span>
+                    </div>
                 <% } %>
                 </div>
-            </div>
-            <div class="col-xs-4">
-                <div id="rsvp-na" class="rsvp-header alert alert-warning" role="alert">Not responded <span class="badge pull-right"><%= na.length  %></span></div>
                 <div id="rsvp-na-table" class="rsvp-column">
+                    <div id="rsvp-na" class="rsvp-header alert-warning">Not responded <span class="badge pull-right"><%= na.length  %></span></div>
                 <% for (var i = 0; i < na.length; i++) { %>
-                    <div class="guest"><%= na[i].first %> <%= na[i].last %></div>
+                    <div class="rsvp-guest" data-last="<%= na[i].last %>" data-first="<%= na[i].first %>">
+                        <span class="rsvp-guest-name"><%= na[i].first %> <%= na[i].last %></span>
+                        <span class="glyphicon glyphicon-pencil<% if (!na[i].note) { %> empty<% } %>"></span>
+                        <span class="glyphicon glyphicon-music<% if (!na[i].song) { %> empty<% } %>"></span>
+                        <span class="glyphicon glyphicon-apple<% if (!na[i].diet) { %> empty<% } %>"></span>
+                    </div>
                 <% } %>
                 </div>
             </div>
