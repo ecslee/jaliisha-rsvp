@@ -3,6 +3,16 @@
 $teal-most-trans: rgba(10, 87, 123, 0.1);
 $orange-trans: rgba(242, 116, 66, 0.8);
 
+body {
+    @media(min-width: 768px) {
+        background-size: cover;
+    }
+    
+    @media(min-width: 992px) {
+        background-size: 180%;
+    }
+}
+
 #info {
     padding: 30px;
 }

@@ -51,6 +51,9 @@ body { min-height: 100vh; background-image: url("../images/flowers-left.png"), u
 p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 10pt; }
 
 /* Admin page */
+@media (min-width: 768px) { body { background-size: cover; } }
+@media (min-width: 992px) { body { background-size: 180%; } }
+
 #info { padding: 30px; }
 
 .rsvp-table { display: inline-block; width: 100%; background-color: white; border: 1px solid #0E79AB; border-radius: 10px; }
