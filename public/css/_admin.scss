@@ -134,6 +134,28 @@ body {
     }
 }
 
+#refresh {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 20%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-width: 0px;
+    height: 48px;
+    .glyphicon-refresh {
+        margin-top: 12px;
+    }
+    
+    @media(min-width: 768px) {
+        height: 80px;
+
+        .glyphicon-refresh {
+            margin-top: 45px;
+        }
+    }
+}
+
 .alert-success {
     .badge {
         border-color: #dff0d8;

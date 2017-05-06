@@ -1,3 +1,20 @@
+function getRSVPTable() {
+    $.ajax({
+        url: '/admin/rsvps',
+        success: function (data, success, jqxhr) {
+            if (data.error) {
+                $('#alerts #error').show();
+            } else {
+                console.log('success');
+                $('#rsvp-table').html(data).show();
+            }
+        },
+        error: function (jqxhr, status, errorMsg) {
+            $('#alerts #error').show();
+        }
+    });
+}
+
 $('#submit-btn').click(function () {
     var password = $('#password').val().trim();
 
@@ -14,26 +31,14 @@ $('#submit-btn').click(function () {
                     if (!data.auth) {
                         $('#alerts #auth-no').show();
                     } else {
-                        $.ajax({
-                            url: '/admin/rsvps',
-                            success: function (data, success, jqxhr) {
-                                if (data.error) {
-                                    $('#alerts #error').show();
-                                } else {
-                                    console.log('success');
-                                    $('#header').hide();
-                                    $('#rsvp-form').hide();
-                                    $('#rsvp-table').html(data).show();
-                                    $('[data-toggle="popover"]').popover({
-                                        placement: 'top',
-                                        trigger: 'focus',
-                                        html: true
-                                    });
-                                }
-                            },
-                            error: function (jqxhr, status, errorMsg) {
-                                $('#alerts #error').show();
-                            }
+                        $('#header').hide();
+                        $('#rsvp-form').hide();
+                        getRSVPTable();
+                        $('#refresh').show();
+                        $('[data-toggle="popover"]').popover({
+                            placement: 'top',
+                            trigger: 'focus',
+                            html: true
                         });
                     }
                 }
@@ -41,5 +46,7 @@ $('#submit-btn').click(function () {
         );
     }
 });
+
+$('#refresh').click(getRSVPTable);
 
 console.log('*~ WebSeitz 2017 ~*');
