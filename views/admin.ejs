@@ -17,7 +17,8 @@
                                   tabindex="0" role="button"
                                   class="glyphicon glyphicon-music"
                                   data-toggle="popover"
-                                  data-content="<b>Song request:</b> <%= yes[i].song %>"
+                                  title="Song request"
+                                  data-content="<%= yes[i].song %>"
                               <% } else { %>
                                   class="glyphicon glyphicon-music empty"
                               <% } %>></span>
@@ -25,7 +26,8 @@
                                   tabindex="0" role="button"
                                   class="glyphicon glyphicon-apple"
                                   data-toggle="popover"
-                                  data-content="<b>Dietary concern:</b> <%= yes[i].diet %>"
+                                  title="Dietary concern"
+                                  data-content="<%= yes[i].diet %>"
                               <% } else { %>
                                   class="glyphicon glyphicon-apple empty"
                               <% } %>></span>
@@ -43,7 +45,8 @@
                                   tabindex="0" role="button"
                                   class="glyphicon glyphicon-pencil"
                                   data-toggle="popover"
-                                  data-content="<b>Note:</b> <%= no[i].note %>"
+                                  title="Note"
+                                  data-content="<%= no[i].note %>"
                               <% } else { %>
                                   class="glyphicon glyphicon-pencil empty"
                               <% } %>></span>
@@ -51,7 +54,8 @@
                                   tabindex="0" role="button"
                                   class="glyphicon glyphicon-music"
                                   data-toggle="popover"
-                                  data-content="<b>Song request:</b> <%= no[i].song %>"
+                                  title="Song request"
+                                  data-content="<%= no[i].song %>"
                               <% } else { %>
                                   class="glyphicon glyphicon-music empty"
                               <% } %>></span>

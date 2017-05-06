@@ -88,6 +88,13 @@ $orange-trans: rgba(242, 116, 66, 0.8);
             
             .popover {
                 color: $teal !important;
+                
+                h3.popover-title {
+                    font-family: "BoosterNextFY", Helvetica, Arial, "Lucida Grande", sans-serif;
+                    font-weight: 700;
+                    font-size: 13pt;
+                    text-align: center;
+                }
             }
         }
     }

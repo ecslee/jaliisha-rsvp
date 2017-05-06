@@ -21,10 +21,14 @@ $('#submit-btn').click(function () {
                                     $('#alerts #error').show();
                                 } else {
                                     console.log('success');
-                                    $('#find-name').hide();
-                                    $('#btn-container').hide();
                                     $('#header').hide();
+                                    $('#rsvp-form').hide();
                                     $('#rsvp-table').html(data).show();
+                                    $('[data-toggle="popover"]').popover({
+                                        placement: 'top',
+                                        trigger: 'focus',
+                                        html: true
+                                    });
                                 }
                             },
                             error: function (jqxhr, status, errorMsg) {
@@ -36,12 +40,6 @@ $('#submit-btn').click(function () {
             }
         );
     }
-});
-
-$('[data-toggle="popover"]').popover({
-    placement: 'top',
-    trigger: 'focus',
-    html: true
 });
 
 console.log('*~ WebSeitz 2017 ~*');

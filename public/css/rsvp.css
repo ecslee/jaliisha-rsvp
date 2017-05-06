@@ -69,6 +69,7 @@ p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 1
 .rsvp-table .rsvp-column .rsvp-guest .glyphicon:hover { color: #0E79AB; }
 .rsvp-table .rsvp-column .rsvp-guest .glyphicon.empty { visibility: hidden; }
 .rsvp-table .rsvp-column .rsvp-guest .popover { color: #0a577b !important; }
+.rsvp-table .rsvp-column .rsvp-guest .popover h3.popover-title { font-family: "BoosterNextFY", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: 700; font-size: 13pt; text-align: center; }
 @media (max-width: 991px) { .rsvp-table { border-width: 0px 1px; }
   .rsvp-table .rsvp-column { width: 100%; height: 300px; border-left-width: 0px; }
   .rsvp-table .rsvp-column:first-of-type { width: 100%; }
