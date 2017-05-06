@@ -47,6 +47,12 @@ $('#submit-btn').click(function () {
     }
 });
 
+$('#find-name').keypress(function (evt) {
+    if (evt.which === 13) {
+        $('#submit-btn').click();
+    }
+});
+
 $('#refresh').click(getRSVPTable);
 
 console.log('*~ WebSeitz 2017 ~*');
