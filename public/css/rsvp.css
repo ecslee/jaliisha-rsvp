@@ -66,6 +66,7 @@ p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 1
 .rsvp-table .rsvp-column .rsvp-header .badge { position: absolute; top: 11px; right: 10px; }
 .rsvp-table .rsvp-column .rsvp-body { overflow: scroll; height: 460px; }
 .rsvp-table .rsvp-column .rsvp-guest { height: 30px; padding: 0px 5px; line-height: 30px; background-color: white; }
+.rsvp-table .rsvp-column .rsvp-guest .rsvp-guest-name { display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rsvp-table .rsvp-column .rsvp-guest:nth-child(odd) { background-color: rgba(10, 87, 123, 0.1); }
 .rsvp-table .rsvp-column .rsvp-guest:hover { background-color: rgba(242, 116, 66, 0.8); color: white; }
 .rsvp-table .rsvp-column .rsvp-guest .glyphicon { float: right; margin-top: 7px; margin-left: 5px; }
@@ -78,6 +79,10 @@ p#questions { margin-top: 20px; color: #0E79AB; text-align: center; font-size: 1
   .rsvp-table .rsvp-column:first-of-type { width: 100%; }
   .rsvp-table .rsvp-column .rsvp-header { border-top: 1px solid #0E79AB; border-top-left-radius: 10px; border-top-right-radius: 10px; }
   .rsvp-table .rsvp-column .rsvp-body { height: 260px; } }
+
+#rsvp-yes-table .rsvp-guest .rsvp-guest-name { max-width: 65%; }
+
+#rsvp-no-table .rsvp-guest .rsvp-guest-name { max-width: 70%; }
 
 #refresh { display: none; position: absolute; top: 0; right: 20%; border-top-left-radius: 0px; border-top-right-radius: 0px; border-top-width: 0px; height: 48px; }
 #refresh .glyphicon-refresh { margin-top: 12px; }

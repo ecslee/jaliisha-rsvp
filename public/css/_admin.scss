@@ -78,6 +78,14 @@ body {
             padding: 0px 5px;
             line-height: 30px;
             background-color: white;
+            
+            .rsvp-guest-name {
+                display: inline-block;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             &:nth-child(odd) {
                 background-color: $teal-most-trans;
@@ -136,6 +144,22 @@ body {
             .rsvp-body {
                 height: 260px;
             }
+        }
+    }
+}
+
+#rsvp-yes-table {
+    .rsvp-guest {
+        .rsvp-guest-name {
+            max-width: 65%;
+        }
+    }
+}
+
+#rsvp-no-table {
+    .rsvp-guest {
+        .rsvp-guest-name {
+            max-width: 70%;
         }
     }
 }
