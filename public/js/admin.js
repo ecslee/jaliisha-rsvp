@@ -7,6 +7,11 @@ function getRSVPTable() {
             } else {
                 console.log('success');
                 $('#rsvp-table').html(data).show();
+                $('[data-toggle="popover"]').popover({
+                    placement: 'top',
+                    trigger: 'focus',
+                    html: true
+                });
             }
         },
         error: function (jqxhr, status, errorMsg) {
@@ -35,11 +40,6 @@ $('#submit-btn').click(function () {
                         $('#rsvp-form').hide();
                         getRSVPTable();
                         $('#refresh').show();
-                        $('[data-toggle="popover"]').popover({
-                            placement: 'top',
-                            trigger: 'focus',
-                            html: true
-                        });
                     }
                 }
             }

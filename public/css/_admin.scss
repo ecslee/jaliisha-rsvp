@@ -52,13 +52,19 @@ body {
         }
         
         .rsvp-header {
+            position: relative;
             height: 40px;
             padding: 0px 10px;
             line-height: 40px;
             font-size: 14pt;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             
             .badge {
-                margin-top: 11px;
+                position: absolute;
+                top: 11px;
+                right: 10px;
             }
         }
         
